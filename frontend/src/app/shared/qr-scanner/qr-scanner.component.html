@@ -1,0 +1,37 @@
+<div class="scanner-backdrop">
+  <div class="scanner-modal">
+    
+    <!-- Estado de carga -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Iniciando cámara...</p>
+    </div>
+    
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-state">
+      <p>{{ errorMessage }}</p>
+      <button class="retry-btn" (click)="startScan()">Reintentar</button>
+    </div>
+    
+    <!-- Contenedor del video con overlay -->
+    <div class="video-container" [style.display]="isLoading || errorMessage ? 'none' : 'block'">
+      <video 
+        #video 
+        autoplay 
+        muted 
+        playsinline>
+      </video>
+      
+      <!-- Overlay con guía para el QR -->
+      <div class="scan-overlay">
+        <div class="scan-guide">
+          <div class="scan-corners"></div>
+          <p class="scan-instructions">Coloca el código QR dentro del marco</p>
+        </div>
+      </div>
+    </div>
+    
+    <button class="close-btn" (click)="stop()">✕</button>
+    
+  </div>
+</div>

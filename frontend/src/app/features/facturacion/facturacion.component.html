@@ -1,0 +1,169 @@
+<app-navbar></app-navbar>
+<section class="facturacion">
+	<h1>Facturación</h1>
+
+	<div class="toolbar">
+		<input
+			class="search-input"
+			type="text"
+			placeholder="Buscar por cliente, documento o vestido"
+			[(ngModel)]="query"
+			(input)="onSearchChange()"
+		/>
+	</div>
+
+	<div *ngIf="loading" class="status">Cargando alquileres…</div>
+	<div *ngIf="error && !loading" class="status error">{{ error }}</div>
+
+	<div class="table-wrapper" *ngIf="!loading && !error">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Cliente</th>
+					<th>Documento</th>
+					<th>Vestido</th>
+					<th>Fechas</th>
+					<th>Subtotal</th>
+					<th>Depósito</th>
+					<th>Pagado</th>
+                    <th>Pendiente</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let row of filtered; trackBy: trackRow">
+					<td>{{ row.NombreCliente }}</td>
+					<td>
+						<div class="documento-info">
+							<span class="numero">{{ row.identificacionCliente }}</span>
+						</div>
+					</td>
+					<td>
+						<div class="vestido-info">
+							<span class="codigo">{{ row.inventario.codigo || 'N/A' }}</span>
+						</div>
+					</td>
+					<td>
+						<div class="fechas-info">
+							<span class="fecha-inicio">{{ row.fechaInicio | date:'dd/MM/yyyy' }}</span>
+							<span class="separador">al</span>
+							<span class="fecha-fin">{{ row.fechaFin | date:'dd/MM/yyyy' }}</span>
+						</div>
+					</td>
+					<td class="monto">${{ row.valor | number }}</td>
+					<td class="monto">${{ row.deposito | number }}</td>
+					<td class="monto">${{ getTotalPagado(row) | number }}</td>
+					<td class="monto">${{ (row.valor - getTotalPagado(row)) | number }}</td>
+					
+					<td>
+						<button class="btn-action" type="button" (click)="verDetalle(row)">Ver detalle</button>
+						<button class="btn-action" type="button" (click)="registrarPago(row)">Registrar pago</button>
+                        <button class="btn-action danger" type="button" (click)="eliminarAlquiler(row)">Eliminar</button>
+					</td>
+				</tr>
+				<tr *ngIf="filtered.length === 0">
+					<td colspan="9" class="empty">No hay resultados</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<!-- Modal Registrar Pago -->
+<div class="modal-backdrop" *ngIf="pagoOpen">
+	<div class="modal-card">
+		<div class="modal-header">
+			<h2>Registrar Pago</h2>
+			<p class="modal-subtitle" *ngIf="selectedAlquiler">
+				Cliente: {{ selectedAlquiler.NombreCliente }} - Vestido: {{ selectedAlquiler.inventario?.codigo }}
+			</p>
+		</div>
+		<form [formGroup]="pagoForm" (ngSubmit)="submitPago()" class="modal-form">
+			<div class="form-group">
+				<label for="valor">Valor del pago</label>
+				<input 
+					type="number" 
+					id="valor"
+					formControlName="valor" 
+					placeholder="Ingrese el valor del pago" 
+					min="1"
+					step="0.01"
+					class="form-input"
+				/>
+				<div class="error-message" *ngIf="pagoForm.get('valor')?.invalid && pagoForm.get('valor')?.touched">
+					El valor es requerido y debe ser mayor a 0
+				</div>
+			</div>
+			<div class="modal-actions">
+				<button type="button" class="btn-secondary" (click)="closePago()">Cancelar</button>
+				<button type="submit" class="btn-primary" [disabled]="pagoForm.invalid || pagoSubmitting">
+					{{ pagoSubmitting ? 'Guardando...' : 'Registrar Pago' }}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Modal Detalles de Abonos -->
+<div class="modal-backdrop" *ngIf="detalleOpen">
+	<div class="modal-card modal-large">
+		<div class="modal-header">
+			<h2>Detalles de Pagos</h2>
+			<p class="modal-subtitle" *ngIf="selectedAlquilerDetalle">
+				Cliente: {{ selectedAlquilerDetalle.NombreCliente }} - Vestido: {{ selectedAlquilerDetalle.inventario?.codigo }}
+			</p>
+			<button class="close-btn" (click)="closeDetalle()">&times;</button>
+		</div>
+		<div class="modal-body">
+			<div *ngIf="loadingAbonos" class="loading-message">Cargando pagos...</div>
+			
+			<div *ngIf="!loadingAbonos && abonos.length === 0" class="empty-message">
+				No hay pagos registrados para este alquiler
+			</div>
+			
+			<div *ngIf="!loadingAbonos && abonos.length > 0" class="abonos-table-wrapper">
+				<table class="abonos-table">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Valor</th>
+							<th>Usuario</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let abono of abonos; trackBy: trackAbono; let i = index">
+							<td>{{ abono.fecha | date:'dd/MM/yyyy' }}</td>
+							<td class="monto">${{ abono.valor | number }}</td>
+							<td>{{ abono.usuario?.name || abono.Usuario?.nombre || 'N/A' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="modal-actions">
+			<button type="button" class="btn-secondary" (click)="closeDetalle()">Cerrar</button>
+		</div>
+	</div>
+</div>
+
+<!-- Confirm Dialog -->
+<app-confirm-dialog
+	*ngIf="confirmOpen"
+	[title]="confirmTitle"
+	[message]="confirmMessage"
+	[confirmText]="confirmText"
+	[cancelText]="cancelText"
+	(confirm)="confirmDelete()"
+	(cancel)="closeConfirm()"
+></app-confirm-dialog>
+
+<!-- Notification Dialog -->
+<app-notification-dialog
+	*ngIf="notificationOpen"
+	[type]="notificationType"
+	[title]="notificationTitle"
+	[message]="notificationMessage"
+	[autoClose]="notificationType === 'success'"
+	[autoCloseDelay]="3000"
+	(close)="closeNotification()"
+></app-notification-dialog>

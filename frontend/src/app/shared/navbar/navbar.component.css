@@ -1,0 +1,494 @@
+
+.navbar {
+  background: #c7a19a; 
+  border-top: 4px solid #7c4db3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  min-height: 64px;
+  border-radius: 0;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  width: 100%;
+  min-height: 64px;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.navbar-logo img {
+  height: 60px;
+  width: auto;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.navbar-brand h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(60, 40, 120, 0.10);
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Menú hamburguesa */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger-line {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 24px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 28px;
+  color: #f3f3f3;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  position: relative;
+  background: transparent;
+}
+
+.nav-link:hover, .nav-link:focus {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(120, 80, 200, 0.10);
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgba(120, 80, 200, 0.13);
+}
+
+.nav-icon {
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255,255,255,0.8);
+  margin: 0 16px;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 28px;
+  background: rgba(205, 9, 9, 0.2);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 17px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.2px;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(120, 80, 200, 0.08);
+}
+
+.logout-button:hover, .logout-button:focus {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(120, 80, 200, 0.13);
+}
+
+.logout-button:active {
+  background: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+
+.logout-icon {
+  font-size: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+}
+
+.user-avatar {
+  font-size: 22px;
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+/* Overlay para móvil */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 24px;
+  }
+  
+  .navbar-logo img {
+    height: 50px;
+  }
+  
+  /* En tablet, ocultar divider y ajustar espacios */
+  .divider {
+    display: none;
+  }
+  
+  .navbar-actions {
+    gap: 12px;
+  }
+  
+  .logout-button {
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+  
+  .user-text {
+    display: none;
+  }
+}
+
+/* TABLET - Menú horizontal compacto */
+@media (max-width: 900px) and (min-width: 769px) {
+  .navbar-container {
+    padding: 0 16px;
+  }
+  
+  .navbar-menu {
+    gap: 12px;
+  }
+  
+  .nav-link {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .nav-icon {
+    font-size: 16px;
+  }
+  
+  .logout-button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .user-avatar img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* MÓVIL - Menú hamburguesa */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 16px;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .navbar-logo img {
+    height: 45px;
+  }
+  
+  .hamburger-menu {
+    display: flex;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .navbar-actions.desktop-only {
+    display: none;
+  }
+  
+  .navbar-menu {
+    position: fixed;
+    top: 64px;
+    left: -100%;
+    width: 85vw;
+    max-width: 300px;
+    height: calc(100vh - 64px);
+    background: #c7a19a;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    z-index: 1001;
+  }
+  
+  .navbar-menu.mobile-menu-open {
+    left: 0;
+  }
+  
+  .navbar-menu li {
+    width: 100%;
+  }
+  
+  .nav-link {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: flex-start;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .nav-link:hover {
+    background: rgba(255,255,255,0.1);
+    text-decoration: none;
+  }
+  
+  .nav-link.active {
+    background: rgba(255,255,255,0.2);
+    border-left: 4px solid #7c4db3;
+  }
+  
+  /* Estilos para la sección de usuario en móvil */
+  .mobile-user-section {
+    display: block;
+    background: rgba(255,255,255,0.05);
+    width: 100%;
+  }
+  
+  .mobile-user-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .mobile-user-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+  }
+  
+  .mobile-user-text {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .mobile-user-name {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    word-wrap: break-word;
+  }
+  
+  .mobile-user-role {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .mobile-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 0;
+    width: 100%;
+  }
+  
+  /* Estilos para el logout en móvil */
+  .mobile-logout-section {
+    margin-top: auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .mobile-logout-button {
+    width: 100%;
+    padding: 15px;
+    background: rgba(205, 9, 9, 0.3);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  .mobile-logout-button:hover {
+    background: rgba(205, 9, 9, 0.5);
+    border-color: rgba(255,255,255,0.5);
+  }
+  
+  .mobile-overlay {
+    display: block;
+  }
+}
+
+/* Ocultar elementos móviles en desktop/tablet */
+@media (min-width: 769px) {
+  .mobile-user-section,
+  .mobile-logout-section {
+    display: none;
+  }
+}
+
+/* MÓVIL PEQUEÑO */
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 12px;
+    min-height: 56px;
+  }
+  
+  .navbar-logo img {
+    height: 40px;
+  }
+  
+  .hamburger-menu {
+    right: 12px;
+  }
+  
+  .navbar-menu {
+    top: 56px;
+    height: calc(100vh - 56px);
+    width: 90vw;
+    max-width: 280px;
+  }
+  
+  .mobile-user-info {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .mobile-user-avatar img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .mobile-user-name {
+    font-size: 15px;
+  }
+  
+  .mobile-user-role {
+    font-size: 12px;
+  }
+  
+  .mobile-logout-section {
+    padding: 15px;
+  }
+  
+  .mobile-logout-button {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .nav-link {
+    padding: 12px 15px;
+    font-size: 15px;
+  }
+}
+
+/* Clase global para prevenir scroll cuando el menú está abierto */
+:global(body.menu-open) {
+  overflow: hidden;
+}

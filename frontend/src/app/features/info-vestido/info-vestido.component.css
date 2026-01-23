@@ -1,0 +1,1089 @@
+:host {
+  display: block;
+  background: #f7eeea; /* Mismo fondo que vestidos */
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  padding: 24px;
+  padding-top: 88px; /* Consistente con navbar fijo */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Columnas */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Sección de Imagen */
+.imagen-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.imagen-container {
+  width: 100%;
+  max-width: 400px;
+  background: #f4e5e5; /* Mismo color que table-wrapper de vestidos */
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 8px; /* Mismo padding que table-wrapper */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vestido-imagen {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain; /* Cambiado de cover a contain para mostrar imagen completa */
+  background: #fff;
+  border-radius: 8px; /* Consistente con las celdas de la tabla */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Añadir sombra para mejor presentación */
+}
+
+/* Sección del Calendario */
+.calendar-section {
+  background: #f4e5e5;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.calendar-section h2 {
+  color: #5a3328;
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cal-title {
+  font-weight: 700;
+  color: #5a3328;
+}
+
+.cal-nav {
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #5a3328;
+}
+
+.cal-nav:hover {
+  background: #e9e9e9;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cal-weeks {
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  gap: 6px;
+}
+
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.cal-day {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-day.outside {
+  opacity: 0.4;
+}
+
+.cal-day.today {
+  border-color: #c7a39c;
+  background: #faf8f7;
+}
+
+.cal-day.occupied {
+  background: #ffebee; /* fondo ligeramente rojizo */
+  color: #c62828; /* texto rojo */
+  border-color: #e74c3c;
+  box-shadow: inset 0 -4px #e74c3c; /* línea inferior roja */
+  position: relative;
+}
+
+.cal-day.occupied::after {
+  content: '●'; /* punto para indicar ocupado */
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  color: #e74c3c;
+  font-size: 8px;
+}
+
+/* Leyenda del calendario */
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.legend-color.occupied {
+  background: #ffebee;
+  border-color: #e74c3c;
+  box-shadow: inset 0 -3px #e74c3c;
+}
+
+.legend-color.today {
+  background: #faf8f7;
+  border-color: #c7a39c;
+}
+
+.imagen-container {
+  width: 100%;
+  max-width: 400px;
+  background: #f4e5e5; /* Mismo color que table-wrapper de vestidos */
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 8px; /* Mismo padding que table-wrapper */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Información General */
+.info-general {
+  background: #f4e5e5; /* Mismo fondo que table-wrapper */
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin: 0 0 16px 0;
+}
+
+.info-general h2 {
+  color: #5a3328; /* Mismo color que los headers de vestidos */
+  margin: 0;
+  font-size: 18px; /* Mismo tamaño que headers de vestidos */
+  font-weight: 600;
+}
+
+.btn-primary {
+  padding: 10px 16px;
+  background: #c7a39c;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #b8948d;
+}
+
+.info-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #eee;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.info-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: #c7a39c;
+}
+
+.info-card.highlight {
+  border-color: #c7a39c;
+  background: linear-gradient(135deg, #fff 0%, #faf8f7 100%);
+}
+
+.card-icon {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.card-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a3328;
+  word-break: break-word;
+}
+
+.description-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.description-card .card-content {
+  flex: 1;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Información de Alquileres */
+.alquileres-info {
+  background: #f4e5e5; /* Mismo fondo que table-wrapper */
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.alquileres-info h2 {
+  color: #5a3328; /* Mismo color que headers de vestidos */
+  margin-bottom: 1rem;
+  font-size: 18px; /* Mismo tamaño que headers de vestidos */
+  font-weight: 600;
+  padding: 16px;
+  margin: 0 0 16px 0;
+}
+
+.alquileres-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #eee;
+}
+
+.alquileres-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Mismo spacing que tabla de vestidos */
+}
+
+.alquiler-item {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px; /* Mismo radius que celdas */
+  padding: 12px 16px; /* Mismo padding que celdas de tabla */
+  margin-bottom: 8px; /* Mismo spacing que tabla */
+  transition: background-color 0.2s ease;
+}
+
+.alquiler-item:hover {
+  background: #f8f8f8; /* Mismo hover que btn-action */
+}
+
+.alquiler-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.cliente {
+  font-weight: 600;
+  color: #333; /* Consistente con texto de vestidos */
+}
+
+.fecha {
+  color: #666; /* Color para texto secundario */
+  font-size: 0.9rem;
+}
+
+.alquiler-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.monto {
+  font-weight: 600;
+  color: #5a3328; /* Mismo color que headers */
+}
+
+.no-alquileres {
+  text-align: center;
+  padding: 2rem;
+  color: #666; /* Mismo color que .empty en vestidos */
+}
+
+/* Botón para volver - mismo estilo que btn-secondary de vestidos */
+.btn-volver {
+  padding: 10px 16px;
+  background: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-volver:hover {
+  background: #e9e9e9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    padding-top: 76px; /* Navbar móvil */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Reordenar secciones en móvil */
+  .left-column {
+    display: contents; /* Permite que los hijos se ordenen directamente */
+  }
+  
+  .right-column {
+    display: contents; /* Permite que los hijos se ordenen directamente */
+  }
+  
+  /* Orden deseado: calendario, imagen, info general, historial */
+  .calendar-section {
+    order: 1;
+  }
+  
+  .imagen-section {
+    order: 2;
+  }
+  
+  .info-general {
+    order: 3;
+  }
+  
+  .alquileres-info {
+    order: 4;
+  }
+  
+  .info-cards {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+  }
+  
+  .info-card {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .card-icon {
+    font-size: 16px;
+  }
+  
+  .card-label {
+    font-size: 10px;
+  }
+  
+  .card-value {
+    font-size: 12px;
+  }
+  
+  .description-card {
+    padding: 12px;
+  }
+  
+  .imagen-container {
+    max-width: 300px;
+    margin: 0 auto; /* Centrar en móvil */
+  }
+  
+  .vestido-imagen {
+    max-height: 300px;
+  }
+  
+  .info-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .rental-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  /* Modal responsive en móvil */
+  .modal-backdrop {
+    padding: 8px;
+  }
+  
+  .modal-card {
+    width: 100%;
+    max-width: none;
+    padding: 16px;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+  
+  .modal-card.rental {
+    max-width: none;
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .modal-header {
+    margin-bottom: 16px;
+  }
+  
+  .modal-header h2 {
+    font-size: 18px;
+  }
+  
+  .rental-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .rental-calendar {
+    padding: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .rental-calendar .cal-header {
+    margin-bottom: 6px;
+  }
+  
+  .rental-calendar .cal-title {
+    font-size: 14px;
+  }
+  
+  .rental-calendar .cal-nav {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .rental-calendar .cal-weekdays {
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+  
+  .rental-calendar .cal-weeks {
+    gap: 4px;
+  }
+  
+  .rental-calendar .cal-week {
+    gap: 4px;
+  }
+  
+  .rental-calendar .cal-day {
+    padding: 4px;
+    font-size: 11px;
+    min-height: 26px;
+  }
+  
+  .rental-form {
+    gap: 12px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .form-grid label.wide {
+    grid-column: auto;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+/* Modal de Alquiler */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90vw;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
+
+.modal-card.rental {
+  max-width: 1000px;
+}
+
+.modal-header {
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #5a3328;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.rental-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.rental-calendar {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.rental-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  color: #5a3328;
+  font-size: 14px;
+}
+
+.form-grid label.wide {
+  grid-column: span 2;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  outline: none;
+  border-color: #c7a39c;
+  box-shadow: 0 0 0 2px rgba(199, 163, 156, 0.2);
+}
+
+.cal-day.disabled {
+  background: #f5f5f5;
+  color: #ccc;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+.cal-day.selected {
+  background: #c7a39c;
+  color: #fff;
+  border-color: #c7a39c;
+  font-weight: 600;
+}
+
+.cal-day.in-range {
+  background: rgba(199, 163, 156, 0.2);
+  border-color: #c7a39c;
+}
+
+.cal-day.selected.in-range {
+  background: #c7a39c;
+  color: #fff;
+}
+
+.cal-day:hover:not(.disabled):not(.occupied) {
+  background: rgba(199, 163, 156, 0.1);
+  border-color: #c7a39c;
+}
+
+.modal-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-secondary {
+  padding: 10px 16px;
+  background: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: #e9e9e9;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary:disabled:hover {
+  background: #c7a39c;
+}
+
+/* Estilos adicionales para el modal de alquiler */
+.rental-form .form-grid label {
+  color: #5a3328;
+}
+
+.rental-form .form-grid input[readonly] {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.rental-form .form-grid input:invalid {
+  border-color: #e74c3c;
+}
+
+.rental-form .form-grid input:invalid:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* Mejoras visuales para el calendario del modal */
+.rental-calendar .cal-day.disabled.occupied {
+  background: #f5f5f5;
+  color: #999;
+  border-color: #ddd;
+  box-shadow: inset 0 -2px #e74c3c;
+  cursor: not-allowed;
+}
+
+.rental-calendar .cal-day:hover:not(.disabled):not(.occupied) {
+  background: rgba(199, 163, 156, 0.1);
+  border-color: #c7a39c;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 16px;
+    padding-top: 84px; /* Navbar tablet */
+    max-width: none;
+    gap: 1.5rem;
+  }
+  
+  .vestido-imagen {
+    max-height: 300px;
+  }
+  
+  .details-card h1 {
+    font-size: 24px;
+  }
+  
+  .details-grid {
+    gap: 12px;
+  }
+  
+  /* Modal de alquiler responsive tablet */
+  .modal-card.rental {
+    max-width: 900px;
+    width: 95vw;
+  }
+  
+  .rental-grid {
+    gap: 1.5rem;
+  }
+  
+  .rental-calendar {
+    padding: 10px;
+  }
+  
+  .form-grid {
+    gap: 12px;
+  }
+  
+  .form-grid input,
+  .form-grid select {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  
+  .cal-day {
+    padding: 6px;
+    font-size: 13px;
+    min-height: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    padding-top: 70px;
+    gap: 1rem;
+  }
+  
+  .imagen-container {
+    max-width: 100%;
+  }
+  
+  .vestido-imagen {
+    max-height: 250px;
+  }
+  
+  .details-card h1 {
+    font-size: 20px;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .detail-item {
+    grid-column: 1;
+  }
+  
+  .status-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-action {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .alquiler-card {
+    padding: 12px;
+  }
+  
+  .alquiler-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+    padding-top: 68px; /* Navbar móvil pequeño */
+    gap: 0.75rem;
+  }
+  
+  .imagen-container {
+    padding: 4px;
+    max-width: 250px; /* Más pequeño en pantallas muy chicas */
+  }
+  
+  .vestido-imagen {
+    max-height: 200px;
+  }
+  
+  .info-general,
+  .calendar-section,
+  .alquileres-info {
+    padding: 6px;
+  }
+  
+  .info-header {
+    padding: 12px;
+  }
+  
+  .info-general h2,
+  .calendar-section h2,
+  .alquileres-info h2 {
+    font-size: 16px;
+  }
+  
+  .info-cards {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 6px;
+  }
+  
+  .info-card {
+    padding: 8px;
+  }
+  
+  .card-label {
+    font-size: 9px;
+  }
+  
+  .card-value {
+    font-size: 11px;
+  }
+  
+  .description-card {
+    padding: 8px;
+  }
+  
+  .card-description {
+    font-size: 12px;
+  }
+  
+  .btn-primary {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .alquiler-item {
+    padding: 8px 12px;
+  }
+  
+  .modal-card {
+    padding: 12px;
+    border-radius: 8px;
+    max-height: 98vh;
+  }
+  
+  .modal-card.rental {
+    padding: 8px;
+    max-height: 98vh;
+  }
+  
+  .modal-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .modal-header h2 {
+    font-size: 16px;
+  }
+  
+  .rental-grid {
+    gap: 0.75rem;
+  }
+  
+  .rental-calendar {
+    padding: 6px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .rental-calendar .cal-title {
+    font-size: 13px;
+  }
+  
+  .rental-calendar .cal-nav {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+  
+  .rental-calendar .cal-weekdays {
+    gap: 2px;
+    margin-bottom: 3px;
+    font-size: 10px;
+  }
+  
+  .rental-calendar .cal-weeks {
+    gap: 2px;
+  }
+  
+  .rental-calendar .cal-week {
+    gap: 2px;
+  }
+  
+  .rental-calendar .cal-day {
+    padding: 3px;
+    font-size: 10px;
+    min-height: 24px;
+  }
+  
+  .rental-form {
+    gap: 8px;
+  }
+  
+  .form-grid {
+    gap: 8px;
+  }
+  
+  .form-grid label {
+    font-size: 12px;
+  }
+  
+  .form-grid input,
+  .form-grid select {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  
+  .modal-actions {
+    margin-top: 12px;
+    gap: 6px;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .cal-day {
+    padding: 6px;
+    min-height: 28px;
+    font-size: 12px;
+  }
+}

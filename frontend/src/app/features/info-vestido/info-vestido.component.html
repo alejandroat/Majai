@@ -1,0 +1,250 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <!-- Columna Izquierda -->
+  <div class="left-column">
+    <!-- Sección Imagen -->
+    <div class="imagen-section">
+      <div class="imagen-container">
+        <img [src]="getImageSrc()" [alt]="vestido?.codigo || 'Vestido'" class="vestido-imagen">
+      </div>
+    </div>
+
+    <!-- Información General -->
+    <div class="info-general">
+      <div class="info-header">
+        <h2>Información General</h2>
+        <button class="btn-primary" type="button" (click)="openRental()">Alquilar vestido</button>
+      </div>
+      <div class="info-cards">
+        <div class="info-card highlight">
+          <div class="card-content">
+            <div class="card-label">Código</div>
+            <div class="card-value">{{ vestido?.codigo || 'N/A' }}</div>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-content">
+            <div class="card-label">Valor</div>
+            <div class="card-value">{{ vestido?.valor ? '$' + vestido?.valor : 'N/A' }}</div>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-content">
+            <div class="card-label">Color</div>
+            <div class="card-value">{{ vestido?.color || 'N/A' }}</div>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-content">
+            <div class="card-label">Talla</div>
+            <div class="card-value">{{ vestido?.talla || 'N/A' }}</div>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-content">
+            <div class="card-label">Ocasión</div>
+            <div class="card-value">{{ vestido?.ocasion || 'N/A' }}</div>
+          </div>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-content">
+            <div class="card-label">Género</div>
+            <div class="card-value">{{ vestido?.genero || 'N/A' }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="description-card">
+        <div class="card-content">
+          <div class="card-label">Descripción</div>
+          <div class="card-description">{{ vestido?.descripcion || 'Sin descripción disponible' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Columna Derecha -->
+  <div class="right-column">
+    <!-- Calendario -->
+    <div class="calendar-section">
+      <h2>Calendario de Disponibilidad</h2>
+      <div class="calendar">
+        <div class="cal-header">
+          <button type="button" class="cal-nav" (click)="prevMonth()">◀</button>
+          <div class="cal-title">{{ getMonthName(calendarMonth) }} {{ calendarYear }}</div>
+          <button type="button" class="cal-nav" (click)="nextMonth()">▶</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+        </div>
+        <div class="cal-weeks">
+          <div class="cal-week" *ngFor="let week of calendarWeeks">
+            <div
+              class="cal-day"
+              *ngFor="let cell of week"
+              [class.outside]="!cell.inMonth"
+              [class.today]="cell.isToday"
+              [class.occupied]="cell.occupied"
+            >
+              {{ cell.date?.getDate() || '' }}
+            </div>
+          </div>
+        </div>
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <span class="legend-color occupied"></span>
+            <span>Fechas ocupadas</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color today"></span>
+            <span>Hoy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de Alquileres -->
+    <div class="alquileres-info">
+      <h2>Historial de Alquileres</h2>
+      <div class="alquileres-list" *ngIf="alquileres.length > 0">
+        <div class="alquiler-item" *ngFor="let alquiler of alquileres">
+          <div class="alquiler-header">
+            <span class="cliente">{{ alquiler.NombreCliente }}</span>
+            <span class="fecha">{{ alquiler.fechaInicio | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="alquiler-details">
+            <span class="telefono">{{ alquiler.telefonoCliente }}</span>
+            <span class="monto">${{ alquiler.valor || alquiler.montoTotal | number }}</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="alquileres.length === 0" class="no-alquileres">
+        <p>No hay alquileres registrados para este vestido</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Alquiler -->
+<div class="modal-backdrop" *ngIf="rentOpen">
+  <div class="modal-card rental">
+    <div class="modal-header">
+      <h2>Registrar alquiler</h2>
+    </div>
+    <div class="rental-grid">
+      <!-- Calendario -->
+      <div class="rental-calendar">
+        <div class="cal-header">
+          <button type="button" class="cal-nav" (click)="prevRentalMonth()">◀</button>
+          <div class="cal-title">{{ getRentalMonthName(rentalCalendarMonth) }} {{ rentalCalendarYear }}</div>
+          <button type="button" class="cal-nav" (click)="nextRentalMonth()">▶</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+        </div>
+        <div class="cal-weeks">
+          <div class="cal-week" *ngFor="let week of rentalCalendarWeeks">
+            <button
+              type="button"
+              class="cal-day"
+              *ngFor="let cell of week"
+              [class.outside]="!cell.inMonth"
+              [class.today]="cell.isToday"
+              [class.disabled]="cell.disabled"
+              [disabled]="cell.disabled"
+              [class.occupied]="cell.occupied"
+              [class.selected]="cell.selected"
+              [class.in-range]="cell.inRange"
+              (click)="selectRentalDate(cell)"
+            >
+              {{ cell.date?.getDate() || '' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <form [formGroup]="rentForm" (ngSubmit)="submitRental()" class="rental-form">
+        <div class="form-grid">
+          <!-- Campo oculto para ID Inventario -->
+          <input type="hidden" formControlName="idInventario" />
+          
+          <label>
+            Fecha inicio
+            <input type="text" formControlName="fechaInicio" placeholder="YYYY-MM-DD" readonly />
+          </label>
+          <label>
+            Fecha fin
+            <input type="text" formControlName="fechaFin" placeholder="YYYY-MM-DD" readonly />
+          </label>
+          <label class="wide">
+            Nombre cliente
+            <input type="text" formControlName="nombreCliente" placeholder="Nombre del cliente" />
+          </label>
+          <label>
+            Tipo documento
+            <select formControlName="tipoDocumento">
+              <option value="CC">Cédula de Ciudadanía</option>
+              <option value="TI">Tarjeta de Identidad</option>
+              <option value="CE">Cédula de Extranjería</option>
+              <option value="PASAPORTE">Pasaporte</option>
+            </select>
+          </label>
+          <label>
+            Identificación cliente
+            <input type="text" formControlName="identificacionCliente" placeholder="Identificación" />
+          </label>
+          <label>
+            Teléfono cliente
+            <input type="text" formControlName="telefonoCliente" placeholder="Teléfono" />
+          </label>
+          <label class="wide">
+            Dirección cliente
+            <input type="text" formControlName="direccionCliente" placeholder="Dirección (opcional)" />
+          </label>
+          <label>
+            Depósito
+            <input type="number" formControlName="deposito" placeholder="0" min="0" />
+          </label>
+          <label>
+            Valor
+            <input type="number" formControlName="valor" placeholder="Valor del alquiler" min="1" />
+          </label>
+          <label>
+            Tipo pago
+            <select formControlName="tipoPago">
+              <option value="CONTADO">Contado</option>
+              <option value="ABONO">Abono</option>
+            </select>
+          </label>
+          <label>
+            Monto pagado
+            <input type="number" formControlName="montoPagado" placeholder="0" min="0" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeRental()">Cancelar</button>
+          <button type="submit" class="btn-primary" [disabled]="rentForm.invalid || rentSubmitting">
+            {{ rentSubmitting ? 'Guardando…' : 'Guardar alquiler' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Dialog -->
+<app-notification-dialog
+	*ngIf="notificationOpen"
+	[type]="notificationType"
+	[title]="notificationTitle"
+	[message]="notificationMessage"
+	[autoClose]="notificationType === 'success'"
+	[autoCloseDelay]="3000"
+	(close)="closeNotification()"
+></app-notification-dialog>

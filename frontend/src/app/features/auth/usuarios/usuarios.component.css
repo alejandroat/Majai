@@ -1,0 +1,604 @@
+:host {
+	display: block;
+	background: #f7eeea;
+	min-height: 100vh;
+	overflow-x: hidden;
+	position: relative;
+}
+
+.usuarios {
+	padding: 24px;
+	padding-top: 88px; /* Ajustado para navbar fijo */
+	max-width: 1400px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	min-height: calc(100vh - 88px);
+}
+
+.usuarios h1 {
+	font-size: 36px;
+	font-weight: 800;
+	margin: 0 0 24px 0;
+	color: #5a3328;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 24px;
+	width: 100%;
+}
+
+.profile-card,
+.list-card {
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+	padding: 24px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.profile-card h2,
+.list-card h2 {
+	margin: 0 0 16px 0;
+	font-size: 22px;
+	font-weight: 700;
+	color: #5a3328;
+}
+
+.profile-box {
+	background: #f9f4f3;
+	border-radius: 12px;
+	padding: 20px;
+	margin-bottom: 16px;
+}
+
+.profile-name {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 4px;
+	color: #333;
+}
+
+.profile-user {
+	color: #6b6b6b;
+	font-size: 14px;
+}
+
+.profile-actions {
+	display: flex;
+	gap: 12px;
+}
+
+.btn-primary {
+	padding: 12px 20px;
+	background: #c7a39c;
+	color: #fff;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-primary:hover {
+	background: #b8948f;
+	transform: translateY(-1px);
+}
+
+.btn-secondary {
+	padding: 12px 20px;
+	background: #f1f1f1;
+	color: #333;
+	border: 1px solid #ddd;
+	border-radius: 12px;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+	background: #e9e9e9;
+}
+
+.table-wrapper {
+	background: #f4e5e5;
+	border-radius: 12px;
+	padding: 12px;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+table.table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0 8px;
+	min-width: 300px;
+	table-layout: fixed;
+}
+
+thead th {
+	text-align: left;
+	padding: 16px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #5a3328;
+	background: none;
+}
+
+tbody td {
+	background: #fff;
+	padding: 16px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+}
+
+tbody tr td:first-child {
+	border-left: 1px solid #eee;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+tbody tr td:last-child {
+	border-right: 1px solid #eee;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+tbody tr:hover td {
+	background: #f8f8f8;
+}
+
+.empty {
+	text-align: center;
+	color: #666;
+	font-style: italic;
+	padding: 40px 16px;
+}
+
+.btn-action {
+	padding: 8px 12px;
+	background: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 500;
+	margin: 0 4px;
+	font-size: 12px;
+	transition: all 0.3s ease;
+	display: inline-block;
+}
+
+.btn-action:hover {
+	background: #f8f8f8;
+	transform: translateY(-1px);
+}
+
+.btn-action.danger {
+	background: #e74c3c;
+	color: #fff;
+	border-color: #c0392b;
+}
+
+.btn-action.danger:hover {
+	background: #d84332;
+}
+
+.status {
+	margin: 16px 0;
+	padding: 12px;
+	border-radius: 8px;
+	background: #f0f0f0;
+}
+
+.status.error {
+	color: #c0392b;
+	background: #fdeaea;
+	border: 1px solid #f5c6c6;
+}
+
+/* Modal compartido */
+.modal-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.modal-card {
+	background: #fff;
+	border-radius: 12px;
+	width: 100%;
+	max-width: 600px;
+	max-height: 90vh;
+	overflow-y: auto;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+	position: relative;
+	z-index: 10000;
+}
+
+.modal-header {
+	padding: 24px 24px 16px 24px;
+	border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	color: #333;
+}
+
+.modal-form {
+	padding: 24px;
+}
+
+.form-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.form-grid label {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-weight: 600;
+	color: #333;
+}
+
+.form-grid label.wide {
+	grid-column: span 2;
+}
+
+.form-grid input {
+	padding: 12px 16px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 14px;
+	transition: border-color 0.3s ease;
+}
+
+.form-grid input:focus {
+	outline: none;
+	border-color: #c7a39c;
+	box-shadow: 0 0 0 2px rgba(199, 163, 156, 0.2);
+}
+
+/* Checkbox para rol admin */
+.checkbox-label {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center;
+	gap: 12px;
+}
+
+.checkbox-label input[type="checkbox"] {
+	width: auto;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+	transform: scale(1.2);
+}
+
+.checkbox-text {
+	font-size: 15px;
+	font-weight: 600;
+	color: #333;
+	cursor: pointer;
+}
+
+.modal-actions {
+	margin-top: 24px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+	border-top: 1px solid #eee;
+	padding-top: 20px;
+}
+
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary {
+	min-width: 120px;
+}
+
+/* Confirm Dialog Styles Override */
+::ng-deep app-confirm-dialog .confirm-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(1px);
+	z-index: 10001;
+}
+
+::ng-deep app-confirm-dialog .confirm-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: min(480px, calc(100% - 32px));
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+	z-index: 10002;
+	overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+	.usuarios {
+		padding: 20px;
+		padding-top: 84px; /* Ajustado para navbar en tablet */
+		min-height: calc(100vh - 84px);
+	}
+	
+	.usuarios h1 {
+		font-size: 28px;
+	}
+	
+	.grid {
+		gap: 20px;
+	}
+	
+	.profile-card,
+	.list-card {
+		padding: 20px;
+	}
+	
+	.table {
+		min-width: 300px;
+		width: 100%;
+	}
+}
+
+@media (max-width: 900px) {
+	.grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+	
+	.profile-card {
+		order: 1;
+	}
+	
+	.list-card {
+		order: 2;
+	}
+	
+	.usuarios {
+		padding-top: 80px; /* Ajustado para navbar compacto */
+		min-height: calc(100vh - 80px);
+	}
+}
+
+@media (max-width: 768px) {
+	.usuarios {
+		padding: 16px;
+		padding-top: 76px; /* Navbar altura móvil */
+		min-height: calc(100vh - 76px);
+	}
+	
+	.usuarios h1 {
+		font-size: 24px;
+		margin-bottom: 16px;
+	}
+	
+	.profile-card,
+	.list-card {
+		padding: 16px;
+	}
+	
+	.profile-card h2,
+	.list-card h2 {
+		font-size: 18px;
+	}
+	
+	.profile-name {
+		font-size: 16px;
+	}
+	
+	.profile-user {
+		font-size: 13px;
+	}
+	
+	.table-wrapper {
+		padding: 8px;
+		margin: 0;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	.table {
+		font-size: 13px;
+		min-width: 100%;
+		width: 100%;
+	}
+	
+	.table th,
+	.table td {
+		padding: 10px 6px; /* Reducido padding */
+		font-size: 12px;
+	}
+	
+	.table th:first-child,
+	.table td:first-child {
+		padding-left: 8px;
+	}
+	
+	.table th:last-child,
+	.table td:last-child {
+		padding-right: 8px;
+	}
+	
+	.btn-action {
+		padding: 6px 8px;
+		font-size: 11px;
+		margin: 1px;
+		display: block;
+		margin-bottom: 2px;
+	}
+	
+	/* Hacer los botones más pequeños en móvil */
+	.btn-action:first-of-type {
+		margin-bottom: 4px;
+	}
+	
+	.form-grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+	
+	.form-grid label.wide {
+		grid-column: span 1;
+	}
+	
+	.modal-actions {
+		flex-direction: column;
+		gap: 10px;
+	}
+	
+	.modal-actions .btn-primary,
+	.modal-actions .btn-secondary {
+		width: 100%;
+		min-width: auto;
+	}
+}
+
+@media (max-width: 480px) {
+	.usuarios {
+		padding: 12px;
+		padding-top: 68px; /* Navbar móvil pequeño */
+		min-height: calc(100vh - 68px);
+	}
+	
+	.usuarios h1 {
+		font-size: 20px;
+		margin-bottom: 12px;
+	}
+	
+	.profile-card,
+	.list-card {
+		padding: 12px;
+	}
+	
+	.profile-card h2,
+	.list-card h2 {
+		font-size: 16px;
+		margin-bottom: 12px;
+	}
+	
+	.profile-box {
+		padding: 16px;
+	}
+	
+	.profile-name {
+		font-size: 14px;
+	}
+	
+	.profile-user {
+		font-size: 12px;
+	}
+	
+	.table-wrapper {
+		padding: 4px;
+		margin: 0;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	.table {
+		font-size: 11px;
+		min-width: 100%;
+		width: 100%;
+	}
+	
+	.table th,
+	.table td {
+		padding: 8px 4px;
+		font-size: 11px;
+		line-height: 1.3;
+	}
+	
+	.table th:first-child,
+	.table td:first-child {
+		padding-left: 6px;
+	}
+	
+	.table th:last-child,
+	.table td:last-child {
+		padding-right: 6px;
+	}
+	
+	/* Columna de acciones más compacta */
+	.table th:last-child {
+		width: 80px;
+	}
+	
+	.btn-action {
+		padding: 4px 6px;
+		font-size: 9px;
+		margin: 0;
+		display: block;
+		width: 100%;
+		margin-bottom: 2px;
+		border-radius: 4px;
+	}
+	
+	.btn-primary {
+		padding: 10px 16px;
+		font-size: 13px;
+	}
+	
+	.modal-backdrop {
+		padding: 8px;
+		z-index: 9999;
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.modal-header {
+		padding: 16px;
+	}
+	
+	.modal-header h2 {
+		font-size: 18px;
+	}
+	
+	.modal-form {
+		padding: 16px;
+	}
+	
+	.form-grid {
+		gap: 12px;
+	}
+	
+	.form-grid input {
+		padding: 10px 12px;
+		font-size: 13px;
+	}
+	
+	.checkbox-text {
+		font-size: 13px;
+	}
+}

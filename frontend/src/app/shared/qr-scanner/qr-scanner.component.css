@@ -1,0 +1,284 @@
+.scanner-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
+}
+
+.scanner-modal {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scan-guide {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+
+.scan-corners {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.scan-corners::before,
+.scan-corners::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #00ff88;
+}
+
+.scan-corners::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 12px;
+}
+
+.scan-corners::after {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 12px;
+}
+
+.scan-guide::before,
+.scan-guide::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #00ff88;
+}
+
+.scan-guide::before {
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 12px;
+}
+
+.scan-guide::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 12px;
+}
+
+.scan-instructions {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.scan-corners {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .scanner-modal {
+    max-width: 90vw;
+    margin: 20px;
+  }
+  
+  .scan-guide {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .scan-instructions {
+    font-size: 13px;
+    bottom: -45px;
+  }
+  
+  .close-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  
+  .loading-state,
+  .error-state {
+    padding: 30px 15px;
+  }
+  
+  .retry-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scanner-modal {
+    max-width: 95vw;
+    margin: 10px;
+  }
+  
+  .scan-guide {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .scan-corners::before,
+  .scan-corners::after,
+  .scan-guide::before,
+  .scan-guide::after {
+    width: 25px;
+    height: 25px;
+    border-width: 2px;
+  }
+  
+  .scan-instructions {
+    font-size: 12px;
+    bottom: -40px;
+    padding: 0 10px;
+  }
+  
+  .close-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    top: 8px;
+    right: 8px;
+  }
+  
+  .loading-state,
+  .error-state {
+    padding: 25px 10px;
+  }
+  
+  .loading-state p,
+  .error-state p {
+    font-size: 14px;
+  }
+  
+  .loading-state .spinner {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .retry-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+.loading-state,
+.error-state {
+  padding: 40px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.loading-state .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #c7a39c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+.loading-state p,
+.error-state p {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.error-state p {
+  color: #e74c3c;
+}
+
+.retry-btn {
+  padding: 10px 16px;
+  background: #c7a39c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.retry-btn:hover {
+  background: #b8948f;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.9);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

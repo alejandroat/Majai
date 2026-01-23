@@ -1,0 +1,100 @@
+<app-navbar></app-navbar>
+
+<section class="usuarios">
+	<h1>Usuarios</h1>
+
+	<div class="grid">
+		<!-- Panel perfil actual -->
+		<div class="profile-card">
+			<h2>Mi perfil</h2>
+			<div class="profile-box">
+				<div class="profile-name">{{ currentUser?.name || currentUser?.user }}</div>
+				<div class="profile-user">{{ currentUser?.user }}</div>
+			</div>
+			<div class="profile-actions">
+				<button class="btn-primary" type="button" (click)="openCreate()">Crear nuevo</button>
+			</div>
+		</div>
+
+		<!-- Listado de usuarios -->
+		<div class="list-card">
+			<h2>Listado de usuarios</h2>
+
+			<div *ngIf="loading" class="status">Cargando usuarios…</div>
+			<div *ngIf="error && !loading" class="status error">{{ error }}</div>
+
+			<div class="table-wrapper" *ngIf="!loading && !error">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>Usuario</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let u of users; trackBy: trackRow">
+							<td>{{ u.id }}</td>
+							<td>{{ u.name }}</td>
+							<td>{{ u.user }}</td>
+							<td>
+								<button class="btn-action" type="button" (click)="openEdit(u)">Editar</button>
+								<button class="btn-action danger" type="button" (click)="deleteRow(u)">Eliminar</button>
+							</td>
+						</tr>
+						<tr *ngIf="users.length === 0">
+							<td colspan="4" class="empty">No hay usuarios</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Modal Crear/Editar Usuario -->
+<div class="modal-backdrop" *ngIf="modalOpen">
+	<div class="modal-card">
+		<div class="modal-header">
+			<h2>{{ modalMode === 'edit' ? 'Editar usuario' : 'Crear usuario' }}</h2>
+		</div>
+		<form [formGroup]="form" (ngSubmit)="submitForm()" class="modal-form">
+			<div class="form-grid">
+				<label>
+					Nombre
+					<input type="text" formControlName="name" placeholder="Nombre completo" />
+				</label>
+				<label>
+					Usuario
+					<input type="text" formControlName="user" placeholder="Usuario" />
+				</label>
+				<label class="wide">
+					Contraseña
+					<input type="password" formControlName="password" placeholder="Contraseña" />
+				</label>
+				<label class="wide checkbox-label">
+					<input type="checkbox" formControlName="esAdmin" />
+					<span class="checkbox-text">¿Es administrador?</span>
+				</label>
+			</div>
+			<div class="modal-actions">
+				<button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+				<button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
+					{{ submitting ? (modalMode === 'edit' ? 'Actualizando…' : 'Creando…') : (modalMode === 'edit' ? 'Actualizar' : 'Crear') }}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Confirmación eliminar usuario -->
+<app-confirm-dialog
+	*ngIf="confirmOpen"
+	[title]="confirmTitle"
+	[message]="confirmMessage"
+	[confirmText]="confirmText"
+	[cancelText]="cancelText"
+	(confirm)="confirmDelete()"
+	(cancel)="closeConfirm()"
+></app-confirm-dialog>

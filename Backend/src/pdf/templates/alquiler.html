@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contrato Comercial</title>
+  <link rel="stylesheet" href="../styles/pdf.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ENCABEZADO -->
+  <div class="header">
+    <h1>CONTRATO COMERCIAL</h1>
+    <h2>Majai Casa de Modas</h2>
+    <p class="subtitle">
+      Alquiler de vestidos para toda ocasión<br>
+      Bulevar del Centro Locales 12 - 13 - 14 / Cra. 6 No. 15-51<br>
+      Pereira - Tel. 344 4644 - 321 795
+    </p>
+    <p class="year">2026</p>
+  </div>
+
+  <!-- DATOS GENERALES -->
+  <section>
+    <h3>DATOS GENERALES</h3>
+    <ul class="data-list">
+      <li><strong>Fecha Alquiler:</strong> {fecha_alquiler}</li>
+      <li><strong>Fecha Entrega:</strong> {fecha_entrega}</li>
+      <li><strong>Fecha Reintegro:</strong> {fecha_reintegro}</li>
+      <li><strong>Arrendatario(a):</strong> {nombre_cliente}</li>
+      <li><strong>Documento No:</strong> {documento_cliente}</li>
+      <li><strong>Dirección:</strong> {direccion_cliente}</li>
+      <li><strong>Teléfono Celular:</strong> {telefono_cliente1}</li>
+      <li><strong>Teléfono Fijo:</strong> {telefono_cliente2}</li>
+    </ul>
+  </section>
+
+  <!-- TERMINOS -->
+  <section>
+    <h3>TÉRMINOS DE USO</h3>
+    <p class="paragraph">
+      Estos términos y condiciones de uso aplican para todos los clientes de
+      MAJAI CASA DE MODAS. El alquiler es de (4) días calendario contados a partir
+      del día de entrega de la prenda. Este contrato es intransferible.
+      El precio del contrato comercial se fija en
+      <strong>$ {valor_total_alquiler}</strong>.
+    </p>
+  </section>
+
+  <!-- DETALLE -->
+  <section>
+    <h3>DETALLE DE PRENDAS</h3>
+    <div class="box">
+      {caracteristicas_prendas}
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section>
+    <h3>VALORES</h3>
+    <ul class="data-list">
+      <li><strong>Valor Depósito:</strong> $ {valor_deposito}</li>
+    </ul>
+  </section>
+
+  <!-- CONTRATO -->
+  <section>
+    <h3>CONTRATO DE ARRENDAMIENTO</h3>
+
+    <p class="paragraph">
+      Contrato de arrendamiento que celebran por una parte
+      <strong>CAROLINA GALLEGO MONTOYA</strong>,
+      identificada con cédula No. 1.088.022.866, como representante legal de
+      <strong>Majai Casa de Modas</strong>, denominada LA ARRENDADORA,
+      y por la otra <strong>{nombre_cliente}</strong>, con cédula
+      No. <strong>{documento_cliente}</strong>, denominada LA ARRENDATARIA,
+      bajo las siguientes cláusulas:
+    </p>
+
+    <ol class="clauses">
+      <li>
+        LA ARRENDADORA entrega en arrendamiento el siguiente artículo:
+        {descripcion_vestido}.
+      </li>
+      <li>
+        El precio del arrendamiento se fija en
+        <strong>$ {valor_alquiler}</strong>.
+      </li>
+      <li>
+        El contrato se celebra desde la firma hasta la devolución del vestido en
+        perfectas condiciones.
+      </li>
+      <li>
+        Cualquier cambio de fecha deberá informarse con mínimo 15 días de
+        anticipación.
+      </li>
+      <li>
+        No hay devolución de dinero bajo ningún concepto.
+      </li>
+      <li>
+        El depósito es adicional al valor del alquiler y podrá ser retenido total
+        o parcialmente por daños, pérdidas o suciedad.
+      </li>
+      <li>
+        En caso de retraso en la devolución se cobrará una penalidad diaria hasta
+        un máximo de 10 días.
+      </li>
+      <li>
+        El contrato es personal e intransferible.
+      </li>
+      <li>
+        Leído y aceptado el presente contrato, se firma en Pereira el día
+        {dia_firma} de {mes_firma} de {anio_firma}.
+      </li>
+    </ol>
+  </section>
+
+  <!-- FIRMAS -->
+  <section class="signatures">
+    <div class="signature-block">
+      <p><strong>Arrendadora:</strong></p>
+      <p>Majai Casa de Modas</p>
+      <p>NIT: 1.088.022.866</p>
+      <div class="line"></div>
+    </div>
+
+    <div class="signature-block">
+      <p><strong>Arrendataria – Firma:</strong></p>
+      <p>Documento No. {documento_cliente}</p>
+      <p>Nombre: {nombre_cliente}</p>
+      <p>Dirección: {direccion_cliente}</p>
+      <div class="line"></div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

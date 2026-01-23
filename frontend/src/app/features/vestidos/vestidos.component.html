@@ -1,0 +1,176 @@
+<app-navbar></app-navbar>
+<section class="vestidos">
+	<h1>Vestidos</h1>
+
+	<div class="toolbar">
+		<button class="btn-primary" type="button" (click)="openModal()">Agregar vestido</button>
+		<input
+			class="search-input"
+			type="text"
+			placeholder="Buscar por nombre, talla o color"
+			[(ngModel)]="query"
+			(input)="onSearchChange()"
+		/>
+	</div>
+
+	<div *ngIf="loading" class="status">Cargando inventario…</div>
+	<div *ngIf="error && !loading" class="status error">{{ error }}</div>
+
+	<div class="table-wrapper" *ngIf="!loading && !error">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Codigo</th>
+					<th>Genero</th>
+					<th>Ocasión</th>
+					<th>Talla</th>
+					<th>Color</th>
+					<th>Precio</th>
+					<th>Descripción</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let row of filtered; trackBy: trackRow">
+					<td>{{ row.codigo }}</td>
+					<td>{{ row.genero || '-' }}</td>
+					<td>{{ row.ocasion || '-' }}</td>
+					<td>{{ row.talla || '-' }}</td>
+					<td>{{ row.color || '-' }}</td>
+					<td>{{ row.valor ? '$' + row.valor : '-' }}</td>
+					<td>{{ row.descripcion }}</td>
+					<td>
+						<button class="btn-action" type="button" (click)="verDetalle(row)">Ver detalle</button>
+						<button class="btn-action" type="button" (click)="openEdit(row)">Editar</button>
+						<button class="btn-action danger" type="button" (click)="deleteRow(row)">Eliminar</button>
+						<button class="btn-action" type="button" (click)="generateQR(row)">QR</button>
+					</td>
+				</tr>
+				<tr *ngIf="filtered.length === 0">
+					<td colspan="8" class="empty">No hay resultados</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<button class="fab" (click)="openScanner()">📷</button>
+
+<app-qr-scanner
+  *ngIf="showScanner"
+  (scanned)="onScanned($event)"
+  (closed)="showScanner = false"
+  (error)="onScannerError($event)">
+</app-qr-scanner>
+
+<!-- Modal Crear Inventario -->
+<div class="modal-backdrop" *ngIf="modalOpen">
+	<div class="modal-card">
+		<div class="modal-header">
+			<h2>{{ modalMode === 'edit' ? 'Editar vestido' : 'Agregar vestido' }}</h2>
+		</div>
+		<form [formGroup]="form" (ngSubmit)="submitForm()" class="modal-form">
+			<!-- Sección de imagen -->
+			<div class="form-section">
+				<label>Imagen del vestido</label>
+				<div class="image-upload-section">
+					<input 
+						type="file" 
+						#imageInput 
+						accept="image/*" 
+						(change)="onFileSelected($event)"
+						hidden
+					>
+					
+					<div class="image-preview" *ngIf="imagePreview">
+						<img [src]="imagePreview" alt="Preview" class="preview-img">
+						<button type="button" class="btn-remove" (click)="clearImage()">×</button>
+					</div>
+					
+					<div class="current-image" *ngIf="!imagePreview && modalMode === 'edit' && selectedId">
+						<img [src]="getImageUrl(selectedId)" alt="Imagen actual" class="current-img">
+						<p>Imagen actual</p>
+					</div>
+					
+					<button 
+						type="button" 
+						class="btn-upload" 
+						(click)="openFileSelector()"
+						*ngIf="!imagePreview"
+					>
+						{{ modalMode === 'edit' ? 'Cambiar imagen' : 'Seleccionar imagen' }}
+					</button>
+				</div>
+			</div>
+
+			<div class="form-grid">
+				<label>
+					Prefijo código
+					<select formControlName="codigoPrefijo">
+						<option value="" disabled>Seleccionar prefijo</option>
+						<option *ngFor="let codigo of codigos" [value]="codigo">{{ codigo }}</option>
+					</select>
+				</label>
+				<label>
+					Número código
+					<input type="number" formControlName="codigoNumero" placeholder="Número del código" min="1" />
+				</label>
+				<label>
+					Descripción
+					<input type="text" formControlName="descripcion" placeholder="Descripción del vestido" />
+				</label>
+				<label>
+					Valor
+					<input type="number" formControlName="valor" placeholder="Valor del vestido" min="1" />
+				</label>
+				<label>
+					Ocación
+					<input type="text" formControlName="ocasion" placeholder="Ocación (opcional)" />
+				</label>
+				<label>
+					Género
+					<input type="text" formControlName="genero" placeholder="Género (opcional)" />
+				</label>
+				<label>
+					Color
+					<input type="text" formControlName="color" placeholder="Color (opcional)" />
+				</label>
+				<label>
+					Talla
+					<input type="text" formControlName="talla" placeholder="Talla (opcional)" />
+				</label>
+			</div>
+
+			<div class="modal-actions">
+				<button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+				<button type="submit" class="btn-primary" [disabled]="form.invalid || submitting">
+					{{ submitting ? (modalMode === 'edit' ? 'Actualizando…' : 'Guardando…') : (modalMode === 'edit' ? 'Actualizar' : 'Guardar') }}
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Confirmación eliminar vestido -->
+<app-confirm-dialog
+	*ngIf="confirmOpen"
+	[title]="confirmTitle"
+	[message]="confirmMessage"
+	[confirmText]="confirmText"
+	[cancelText]="cancelText"
+	(confirm)="confirmDelete()"
+	(cancel)="closeConfirm()"
+></app-confirm-dialog>
+
+<!-- Notification Dialog -->
+<app-notification-dialog
+	*ngIf="notificationOpen"
+	[type]="notificationType"
+	[title]="notificationTitle"
+	[message]="notificationMessage"
+	[autoClose]="notificationType === 'success'"
+	[autoCloseDelay]="3000"
+	(close)="closeNotification()"
+></app-notification-dialog>
+
+
