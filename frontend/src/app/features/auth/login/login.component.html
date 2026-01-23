@@ -14,6 +14,7 @@
             id="user" 
             formControlName="user"
             autocomplete="username"
+            placeholder="Usuario"
           />
         </div>
         <span class="error-message" *ngIf="loginForm.get('user')?.invalid && loginForm.get('user')?.touched">
@@ -29,6 +30,7 @@
             id="password" 
             formControlName="password"
             autocomplete="current-password"
+            placeholder="Contraseña"
           />
         </div>
         <span class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">

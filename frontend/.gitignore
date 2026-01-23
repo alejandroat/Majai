@@ -1,18 +1,18 @@
-# # Dependencias
-# node_modules/
+# Dependencias
+node_modules/
 
-# # Build de producción
-# dist/
+# Build de producción
+dist/
 
-# # Cache Angular
-# .angular/
-# .cache/
+# Cache Angular
+.angular/
+.cache/
 
-# # Logs
-# npm-debug.log*
-# yarn-debug.log*
-# yarn-error.log*
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# # Archivos de sistema
-# .DS_Store
-# Thumbs.db
+# Archivos de sistema
+.DS_Store
+Thumbs.db
