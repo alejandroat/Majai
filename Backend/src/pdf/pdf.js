@@ -25,10 +25,26 @@ async function generatePDF(templateName, data) {
         'pdf.css'
     );
 
+    // Leer la imagen logo2 y convertirla a base64
+    const logoPath = path.join(__dirname, '../../public/logo2.png');
+    let logoBase64 = '';
+    try {
+        const logoBuffer = fs.readFileSync(logoPath);
+        logoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+    } catch (error) {
+        console.warn('No se pudo cargar el logo:', error.message);
+    }
+
     const htmlTemplate = fs.readFileSync(templatePath, 'utf8');
     const css = fs.readFileSync(cssPath, 'utf8');
 
-    let html = injectData(htmlTemplate, data);
+    // Inyectar datos incluyendo el logo base64
+    const dataWithLogo = {
+        ...data,
+        logo_base64: logoBase64
+    };
+
+    let html = injectData(htmlTemplate, dataWithLogo);
 
     html = html.replace('</head>', `<style>${css}</style></head>`);
 

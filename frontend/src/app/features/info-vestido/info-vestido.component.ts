@@ -93,9 +93,11 @@ export class InfoVestidoComponent implements OnInit {
         
         // Construir rangos ocupados para el calendario
         this.occupiedRanges = this.alquileres.map((alquiler: any) => ({
-          start: this.toISODate(new Date(alquiler.fechaInicio)),
-          end: this.toISODate(new Date(alquiler.fechaFin))
+          start: this.parseDateSafely(alquiler.fechaInicio),
+          end: this.parseDateSafely(alquiler.fechaFin)
         }));
+        
+        console.log('Rangos ocupados generados:', this.occupiedRanges);
         
         // Construir calendario
         this.buildCalendar(this.calendarYear, this.calendarMonth);
@@ -209,9 +211,41 @@ export class InfoVestidoComponent implements OnInit {
     return `${y}-${m}-${day}`;
   }
 
+  // Función para parsear fechas de manera segura evitando problemas de zona horaria
+  private parseDateSafely(dateString: string): string {
+    // Si ya es una fecha en formato ISO (YYYY-MM-DD), devolverla tal como está
+    if (typeof dateString === 'string' && dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return dateString;
+    }
+    
+    // Si es una fecha con timestamp UTC (como del backend), extraer solo la parte de fecha
+    if (typeof dateString === 'string' && dateString.includes('T')) {
+      // Extraer solo la parte de la fecha antes de la 'T'
+      const datePart = dateString.split('T')[0];
+      console.log(`Fecha parseada: ${dateString} -> ${datePart}`);
+      return datePart;
+    }
+    
+    // Si es una fecha completa, crear un objeto Date y extraer solo la fecha
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      console.warn('Fecha inválida:', dateString);
+      return '';
+    }
+    
+    // Para evitar problemas de zona horaria, usar directamente los componentes de la fecha
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   private isOccupied(iso: string): boolean {
     for (const r of this.occupiedRanges) {
-      if (iso >= r.start && iso <= r.end) return true;
+      if (iso >= r.start && iso <= r.end) {
+        console.log(`Fecha ${iso} está ocupada (rango: ${r.start} - ${r.end})`);
+        return true;
+      }
     }
     return false;
   }
@@ -384,14 +418,21 @@ export class InfoVestidoComponent implements OnInit {
   }
   
   private hasOccupiedDatesInRange(startDate: string, endDate: string): boolean {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    // Crear fechas directamente desde los componentes para evitar zona horaria
+    const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+    const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
     
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      const iso = this.toISODate(d);
+    const start = new Date(startYear, startMonth - 1, startDay);
+    const end = new Date(endYear, endMonth - 1, endDay);
+    
+    const current = new Date(start);
+    while (current <= end) {
+      const iso = this.toISODate(current);
       if (this.isOccupied(iso)) {
+        console.log(`Fecha ocupada encontrada en rango: ${iso}`);
         return true;
       }
+      current.setDate(current.getDate() + 1);
     }
     return false;
   }
