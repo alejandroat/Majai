@@ -55,6 +55,7 @@ export class InfoVestidoComponent implements OnInit {
       tipoDocumento: ['CC', Validators.required],
       identificacionCliente: ['', Validators.required],
       telefonoCliente: ['', Validators.required],
+      telefonoCliente2: [''], // Segundo teléfono opcional
       direccionCliente: [''],
       deposito: [0],
       valor: ['', Validators.required],
@@ -400,6 +401,13 @@ export class InfoVestidoComponent implements OnInit {
     this.rentSubmitting = true;
     
     const formValue = this.rentForm.value;
+    
+    // Construir array de teléfonos, incluyendo solo los que tengan valor
+    const telefonos = [formValue.telefonoCliente];
+    if (formValue.telefonoCliente2 && formValue.telefonoCliente2.trim()) {
+      telefonos.push(formValue.telefonoCliente2);
+    }
+    
     const payload = {
       fechaInicio: formValue.fechaInicio,
       fechaFin: formValue.fechaFin,
@@ -407,7 +415,7 @@ export class InfoVestidoComponent implements OnInit {
       NombreCliente: formValue.nombreCliente,
       tipoDocumento: formValue.tipoDocumento,
       identificacionCliente: formValue.identificacionCliente,
-      telefonoCliente: [formValue.telefonoCliente],
+      telefonoCliente: telefonos,
       direccionCliente: formValue.direccionCliente,
       deposito: formValue.deposito || 0,
       valor: formValue.valor,

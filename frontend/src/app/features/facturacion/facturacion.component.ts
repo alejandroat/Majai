@@ -260,15 +260,36 @@ export class FacturacionComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.selectedAlquilerToDelete) {
+      const clienteNombre = this.selectedAlquilerToDelete.NombreCliente;
+      
       this.alquilerService.eliminarAlquiler(this.selectedAlquilerToDelete.id).subscribe({
-        next: () => {
-          console.log('Alquiler eliminado exitosamente');
-          this.loadAlquileres();
+        next: (response) => {
+          console.log('Alquiler eliminado exitosamente:', response);
+          
+          // SOLO eliminar visualmente DESPUÉS de confirmación exitosa del backend
+          this.items = this.items.filter(item => item.id !== this.selectedAlquilerToDelete.id);
+          this.applyFilter();
+          
           this.closeConfirm();
+          
+          // Mostrar notificación de éxito
+          this.showNotification(
+            'success',
+            'Alquiler eliminado',
+            `El alquiler de ${clienteNombre} se eliminó exitosamente.`
+          );
         },
         error: (err) => {
           console.error('Error al eliminar alquiler:', err);
           this.closeConfirm();
+          
+          // Mostrar notificación de error
+          const errorMessage = err.error?.message || err.message || 'No se pudo eliminar el alquiler';
+          this.showNotification(
+            'error',
+            'Error al eliminar alquiler',
+            errorMessage
+          );
         }
       });
     }

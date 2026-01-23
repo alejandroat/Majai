@@ -49,9 +49,12 @@ export class VestidosComponent implements OnInit {
   notificationMessage = '';
 
   codigos: string[] = ['VQ', 'VN', 'CK', 'VH', 'PJ', 'VELO', 'CORB', 'CHAL', 'OTRO'];
+  generos: string[] = ['Masculino', 'Femenino', 'Niño', 'Niña'];
 
   @ViewChild('imageInput')
   imageInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('valorInput')
+  valorInput!: ElementRef<HTMLInputElement>;
 
   constructor(private inventarioService: InventarioService, private fb: FormBuilder, private router: Router, private qrService: QrService) {
     this.form = this.fb.group({
@@ -64,6 +67,27 @@ export class VestidosComponent implements OnInit {
       color: [''],
       talla: ['']
     });
+  }
+
+  // Función para formatear números con puntos
+  formatNumber(num: number | string | null | undefined): string {
+    if (!num) return '';
+    const number = typeof num === 'string' ? parseFloat(num.replace(/\./g, '')) : num;
+    if (isNaN(number)) return '';
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  // Función para formatear input mientras se escribe
+  onValueInput(event: any): void {
+    const input = event.target;
+    const value = input.value.replace(/\./g, ''); // Remover puntos existentes
+    if (!isNaN(value) && value !== '') {
+      const formattedValue = this.formatNumber(value);
+      input.value = formattedValue;
+      this.form.patchValue({ valor: value }); // Guardar valor sin formato en el form
+    } else if (value === '') {
+      this.form.patchValue({ valor: '' });
+    }
   }
 
   ngOnInit(): void {
@@ -250,12 +274,21 @@ export class VestidosComponent implements OnInit {
       codigoPrefijo: codigoPrefijo,
       codigoNumero: codigoNumero,
       descripcion: row.descripcion || '',
-      valor: (row as any).valor || '',
+      valor: row.valor || '',
       ocasion: row.ocasion || '',
       genero: row.genero || '',
       color: row.color || '',
       talla: row.talla || ''
     });
+
+    // Formatear el valor en el input si existe
+    if (row.valor) {
+      setTimeout(() => {
+        if (this.valorInput && this.valorInput.nativeElement) {
+          this.valorInput.nativeElement.value = this.formatNumber(row.valor!);
+        }
+      });
+    }
     // Limpiar imagen seleccionada pero mostrar la existente
     this.selectedFile = null;
     this.imagePreview = null;

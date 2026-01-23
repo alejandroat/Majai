@@ -5,6 +5,18 @@
   </div>
   <div class="confirm-body">
     <p>{{ message }}</p>
+    <div class="password-section">
+      <input 
+        type="password" 
+        [(ngModel)]="password"
+        (input)="onPasswordInput()"
+        placeholder="Ingresa tu contraseña"
+        class="password-input"
+        [class.error]="error"
+        autocomplete="current-password"
+      />
+      <div class="error-message" *ngIf="error">{{ error }}</div>
+    </div>
   </div>
   <div class="confirm-actions">
     <button type="button" class="btn cancel" (click)="onCancel()">{{ cancelText }}</button>

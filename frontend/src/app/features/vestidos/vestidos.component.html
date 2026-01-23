@@ -37,7 +37,7 @@
 					<td>{{ row.ocasion || '-' }}</td>
 					<td>{{ row.talla || '-' }}</td>
 					<td>{{ row.color || '-' }}</td>
-					<td>{{ row.valor ? '$' + row.valor : '-' }}</td>
+					<td>{{ row.valor ? '$' + formatNumber(row.valor) : '-' }}</td>
 					<td>{{ row.descripcion }}</td>
 					<td>
 						<button class="btn-action" type="button" (click)="verDetalle(row)">Ver detalle</button>
@@ -110,18 +110,36 @@
 						<option value="" disabled>Seleccionar prefijo</option>
 						<option *ngFor="let codigo of codigos" [value]="codigo">{{ codigo }}</option>
 					</select>
+					<div class="field-error" *ngIf="form.get('codigoPrefijo')?.invalid && form.get('codigoPrefijo')?.touched">
+						<span>Debes seleccionar un prefijo de código</span>
+					</div>
 				</label>
 				<label>
 					Número código
 					<input type="number" formControlName="codigoNumero" placeholder="Número del código" min="1" />
+					<div class="field-error" *ngIf="form.get('codigoNumero')?.invalid && form.get('codigoNumero')?.touched">
+						<span>El número de código es requerido</span>
+					</div>
 				</label>
 				<label>
 					Descripción
 					<input type="text" formControlName="descripcion" placeholder="Descripción del vestido" />
+					<div class="field-error" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">
+						<span>La descripción del vestido es requerida</span>
+					</div>
 				</label>
 				<label>
 					Valor
-					<input type="number" formControlName="valor" placeholder="Valor del vestido" min="1" />
+					<input 
+						#valorInput
+						type="text" 
+						formControlName="valor" 
+						placeholder="Valor del vestido" 
+						(input)="onValueInput($event)" 
+					/>
+					<div class="field-error" *ngIf="form.get('valor')?.invalid && form.get('valor')?.touched">
+						<span>El valor del vestido es requerido</span>
+					</div>
 				</label>
 				<label>
 					Ocación
@@ -129,7 +147,10 @@
 				</label>
 				<label>
 					Género
-					<input type="text" formControlName="genero" placeholder="Género (opcional)" />
+					<select formControlName="genero">
+						<option value="" disabled>Seleccionar género</option>
+						<option *ngFor="let genero of generos" [value]="genero">{{ genero }}</option>
+					</select>
 				</label>
 				<label>
 					Color

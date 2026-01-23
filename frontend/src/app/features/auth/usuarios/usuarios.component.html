@@ -64,14 +64,23 @@
 				<label>
 					Nombre
 					<input type="text" formControlName="name" placeholder="Nombre completo" />
+					<div class="field-error" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+						<span>El nombre completo es requerido</span>
+					</div>
 				</label>
 				<label>
 					Usuario
 					<input type="text" formControlName="user" placeholder="Usuario" />
+					<div class="field-error" *ngIf="form.get('user')?.invalid && form.get('user')?.touched">
+						<span>El nombre de usuario es requerido</span>
+					</div>
 				</label>
 				<label class="wide">
 					Contraseña
 					<input type="password" formControlName="password" placeholder="Contraseña" />
+					<div class="field-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+						<span>La contraseña es requerida</span>
+					</div>
 				</label>
 				<label class="wide checkbox-label">
 					<input type="checkbox" formControlName="esAdmin" />

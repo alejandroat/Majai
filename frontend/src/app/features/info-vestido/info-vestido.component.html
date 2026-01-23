@@ -177,14 +177,23 @@
           <label>
             Fecha inicio
             <input type="text" formControlName="fechaInicio" placeholder="YYYY-MM-DD" readonly />
+            <div class="field-error" *ngIf="rentForm.get('fechaInicio')?.invalid && rentForm.get('fechaInicio')?.touched">
+              <span>Debes seleccionar una fecha de inicio</span>
+            </div>
           </label>
           <label>
             Fecha fin
             <input type="text" formControlName="fechaFin" placeholder="YYYY-MM-DD" readonly />
+            <div class="field-error" *ngIf="rentForm.get('fechaFin')?.invalid && rentForm.get('fechaFin')?.touched">
+              <span>Debes seleccionar una fecha de fin</span>
+            </div>
           </label>
           <label class="wide">
             Nombre cliente
             <input type="text" formControlName="nombreCliente" placeholder="Nombre del cliente" />
+            <div class="field-error" *ngIf="rentForm.get('nombreCliente')?.invalid && rentForm.get('nombreCliente')?.touched">
+              <span>El nombre del cliente es requerido</span>
+            </div>
           </label>
           <label>
             Tipo documento
@@ -198,10 +207,20 @@
           <label>
             Identificación cliente
             <input type="text" formControlName="identificacionCliente" placeholder="Identificación" />
+            <div class="field-error" *ngIf="rentForm.get('identificacionCliente')?.invalid && rentForm.get('identificacionCliente')?.touched">
+              <span>La identificación del cliente es requerida</span>
+            </div>
           </label>
           <label>
             Teléfono cliente
-            <input type="text" formControlName="telefonoCliente" placeholder="Teléfono" />
+            <input type="text" formControlName="telefonoCliente" placeholder="Teléfono principal" />
+            <div class="field-error" *ngIf="rentForm.get('telefonoCliente')?.invalid && rentForm.get('telefonoCliente')?.touched">
+              <span>El teléfono del cliente es requerido</span>
+            </div>
+          </label>
+          <label>
+            Teléfono 2 (opcional)
+            <input type="text" formControlName="telefonoCliente2" placeholder="Teléfono secundario" />
           </label>
           <label class="wide">
             Dirección cliente
@@ -214,6 +233,9 @@
           <label>
             Valor
             <input type="number" formControlName="valor" placeholder="Valor del alquiler" min="1" />
+            <div class="field-error" *ngIf="rentForm.get('valor')?.invalid && rentForm.get('valor')?.touched">
+              <span>El valor del alquiler es requerido</span>
+            </div>
           </label>
           <label>
             Tipo pago
