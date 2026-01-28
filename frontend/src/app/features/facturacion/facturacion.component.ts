@@ -22,6 +22,10 @@ export class FacturacionComponent implements OnInit {
   error: string | null = null;
   query = '';
 
+  // Selección múltiple
+  selectedIds: number[] = [];
+  generatingPDF = false;
+
   // Modal de pago
   pagoOpen = false;
   pagoForm: FormGroup;
@@ -55,7 +59,8 @@ export class FacturacionComponent implements OnInit {
     private router: Router
   ) {
     this.pagoForm = this.fb.group({
-      valor: ['', [Validators.required, Validators.min(1)]]
+      valor: ['', [Validators.required, Validators.min(1)]],
+      tipoPago: ['Efectivo', Validators.required]
     });
   }
 
@@ -116,7 +121,94 @@ export class FacturacionComponent implements OnInit {
     return montoPagado + sumaAbonos;
   }
 
-  
+  // Métodos de selección múltiple
+  isSelected(id: number): boolean {
+    return this.selectedIds.includes(id);
+  }
+
+  toggleSelect(id: number, event: any): void {
+    if (event.target.checked) {
+      if (!this.selectedIds.includes(id)) {
+        this.selectedIds.push(id);
+      }
+    } else {
+      this.selectedIds = this.selectedIds.filter(selectedId => selectedId !== id);
+    }
+  }
+
+  isAllSelected(): boolean {
+    return this.filtered.length > 0 && this.selectedIds.length === this.filtered.length;
+  }
+
+  isIndeterminate(): boolean {
+    return this.selectedIds.length > 0 && this.selectedIds.length < this.filtered.length;
+  }
+
+  toggleSelectAll(event: any): void {
+    if (event.target.checked) {
+      this.selectedIds = this.filtered.map(item => item.id);
+    } else {
+      this.selectedIds = [];
+    }
+  }
+
+  generarPDFSeleccionados(): void {
+    if (this.selectedIds.length === 0) {
+      this.showNotification(
+        'warning',
+        'Sin selección',
+        'Debe seleccionar al menos un alquiler para generar el PDF.'
+      );
+      return;
+    }
+
+    this.generatingPDF = true;
+    
+    const requestData = {
+      arrendamientoIds: this.selectedIds
+    };
+
+    console.log('Generando PDF para IDs:', this.selectedIds);
+
+    this.alquilerService.crearPDFAlquiler(requestData).subscribe({
+      next: (response: any) => {
+        console.log('Respuesta del PDF unificado:', response);
+        this.generatingPDF = false;
+        
+        // Descargar PDF si está disponible
+        if (response && response.pdf && response.pdfFilename) {
+          this.downloadPDF(response.pdf, response.pdfFilename);
+          
+          // Limpiar selección
+          this.selectedIds = [];
+          
+          // Mostrar notificación de éxito
+          this.showNotification(
+            'success',
+            'PDF generado',
+            `Se generó exitosamente el PDF unificado para ${requestData.arrendamientoIds.length} alquileres.`
+          );
+        } else {
+          this.showNotification(
+            'error',
+            'Error en PDF',
+            'No se pudo generar el PDF. Intente nuevamente.'
+          );
+        }
+      },
+      error: (err) => {
+        console.error('Error al generar PDF unificado:', err);
+        this.generatingPDF = false;
+        
+        const errorMessage = err.error?.message || err.message || 'No se pudo generar el PDF';
+        this.showNotification(
+          'error',
+          'Error al generar PDF',
+          errorMessage
+        );
+      }
+    });
+  }
 
   verDetalle(row: any): void {
     console.log('Ver detalle de alquiler:', row);
@@ -128,7 +220,7 @@ export class FacturacionComponent implements OnInit {
   registrarPago(row: any): void {
     console.log('Registrar pago para:', row);
     this.selectedAlquiler = row;
-    this.pagoForm.reset({ valor: '' });
+    this.pagoForm.reset({ valor: '', tipoPago: 'Efectivo' });
     this.pagoOpen = true;
   }
 
@@ -143,13 +235,15 @@ export class FacturacionComponent implements OnInit {
     
     this.pagoSubmitting = true;
     const valorPago = this.pagoForm.value.valor;
+    const tipoPago = this.pagoForm.value.tipoPago;
     const nombreCliente = this.selectedAlquiler.NombreCliente;
     
     const pagoData = {
       idArrendamiento: this.selectedAlquiler.id,
       idUsuario: 1, // Por ahora un valor fijo, debería venir del usuario logueado
       fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-      valor: valorPago
+      valor: valorPago,
+      tipoPago: tipoPago
     };
     
     this.abonoService.crearAbono(pagoData).subscribe({

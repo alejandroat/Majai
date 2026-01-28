@@ -16,14 +16,13 @@
 
     <!-- ENCABEZADO -->
     <div class="header">
-      <h1>CONTRATO COMERCIAL</h1>
+      <h1>Recibo de Caja</h1>
       <h2>Majai Casa de Modas</h2>
       <p class="subtitle">
         Alquiler de vestidos para toda ocasión<br>
-        Bulevar del Centro Locales 12 - 13 - 14 / Cra. 6 No. 15-51<br>
-        Pereira - Tel. 344 4644 - 321 795
+        Bulevar del Centro Local 14 / Cra. 6 No. 15-51<br>
+        Pereira - Tel. 344 4644 - 321 795 2026
       </p>
-      <p class="year">2026</p>
     </div>
 
     <!-- DATOS GENERALES -->
@@ -44,9 +43,21 @@
     <!-- DETALLE PRENDAS -->
     <section>
       <h3>DETALLE DE PRENDAS</h3>
-      <div class="box">
-        {caracteristicas_prendas}
-      </div>
+
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Color</th>
+            <th>Talla</th>
+            <th>Valor abono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {detalle_prendas_rows}
+        </tbody>
+      </table>
     </section>
 
     <!-- VALORES -->
@@ -66,25 +77,6 @@
         <li>El arrendatario al realizar el pago o abono manifiesta estar de acuerdo con esta cláusula.</li>
       </ol>
     </section>
-
-    <!-- FIRMAS -->
-    <section class="signatures">
-      <div class="signature-block">
-        <p><strong>Arrendadora:</strong></p>
-        <p>Majai Casa de Modas</p>
-        <p>NIT: 1.088.022.866</p>
-        <div class="line"></div>
-      </div>
-
-      <div class="signature-block">
-        <p><strong>Arrendataria – Firma:</strong></p>
-        <p>Documento No. {documento_cliente}</p>
-        <p>Nombre: {nombre_cliente}</p>
-        <p>Dirección: {direccion_cliente}</p>
-        <div class="line"></div>
-      </div>
-    </section>
-
   </div>
 
 </body>

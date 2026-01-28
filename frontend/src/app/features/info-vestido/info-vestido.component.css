@@ -689,7 +689,8 @@
 }
 
 .form-grid input,
-.form-grid select {
+.form-grid select,
+.form-grid textarea {
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -698,7 +699,8 @@
 }
 
 .form-grid input:focus,
-.form-grid select:focus {
+.form-grid select:focus,
+.form-grid textarea:focus {
   outline: none;
   border-color: #c7a39c;
   box-shadow: 0 0 0 2px rgba(199, 163, 156, 0.2);

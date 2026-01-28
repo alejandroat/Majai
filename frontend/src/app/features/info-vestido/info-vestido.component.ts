@@ -60,7 +60,8 @@ export class InfoVestidoComponent implements OnInit {
       deposito: [0],
       valor: ['', Validators.required],
       tipoPago: ['CONTADO', Validators.required],
-      montoPagado: [0]
+      montoPagado: [0],
+      observaciones: ['']
     });
   }
 
@@ -437,7 +438,7 @@ export class InfoVestidoComponent implements OnInit {
     return false;
   }
 
-  submitRental(): void {
+  submitRental(pdf: boolean): void {
     if (this.rentForm.invalid || this.rentSubmitting) return;
     this.rentSubmitting = true;
     
@@ -461,47 +462,82 @@ export class InfoVestidoComponent implements OnInit {
       deposito: formValue.deposito || 0,
       valor: formValue.valor,
       tipoPago: formValue.tipoPago,
-      montoPagado: formValue.montoPagado || 0
+      montoPagado: formValue.montoPagado || 0,
+      observaciones: formValue.observaciones || ''
     };
     
-    this.alquilerService.crearAlquiler(payload).subscribe({
-      next: (response: any) => {
-        console.log('Respuesta del servidor:', response);
-        this.rentSubmitting = false;
-        this.closeRental();
-        // Recargar los alquileres y el calendario
-        if (this.vestido?.id) {
-          this.loadVestidoAlquileres(this.vestido.id);
+    if (pdf) {
+      this.alquilerService.crearAlquiler(payload).subscribe({
+        next: (response: any) => {
+          console.log('Respuesta del servidor:', response);
+          this.rentSubmitting = false;
+          this.closeRental();
+          // Recargar los alquileres y el calendario
+          if (this.vestido?.id) {
+            this.loadVestidoAlquileres(this.vestido.id);
+          }
+          
+          // Descargar PDF del contrato si está disponible
+          if (response && response.pdf && response.pdfFilename) {
+            console.log('PDF encontrado, iniciando descarga...');
+            this.downloadPDF(response.pdf, response.pdfFilename);
+          } else {
+            console.log('No se encontró PDF en la respuesta');
+          }
+          
+          // Mostrar notificación de éxito
+          this.showNotification(
+            'success',
+            'Alquiler registrado',
+            `El alquiler para ${formValue.nombreCliente} se registró exitosamente.`
+          );
+        },
+        error: (err) => {
+          console.error('Error creando alquiler', err);
+          this.rentSubmitting = false;
+          
+          // Mostrar notificación de error
+          const errorMessage = err.error?.message || err.message || 'No se pudo registrar el alquiler';
+          this.showNotification(
+            'error',
+            'Error al registrar alquiler',
+            errorMessage
+          );
         }
-        
-        // Descargar PDF del contrato si está disponible
-        if (response && response.pdf && response.pdfFilename) {
-          console.log('PDF encontrado, iniciando descarga...');
-          this.downloadPDF(response.pdf, response.pdfFilename);
-        } else {
-          console.log('No se encontró PDF en la respuesta');
+      });
+    } else {
+      this.alquilerService.crearAlquilerSinPDF(payload).subscribe({
+        next: (response: any) => {
+          console.log('Respuesta del servidor (sin PDF):', response);
+          this.rentSubmitting = false;
+          this.closeRental();
+          
+          // Recargar los alquileres y el calendario
+          if (this.vestido?.id) {
+            this.loadVestidoAlquileres(this.vestido.id);
+          }
+          
+          // Mostrar notificación de éxito
+          this.showNotification(
+            'success',
+            'Alquiler registrado',
+            `El alquiler para ${formValue.nombreCliente} se registró exitosamente (sin PDF).`
+          );
+        },
+        error: (err) => {
+          console.error('Error creando alquiler (sin PDF)', err);
+          this.rentSubmitting = false;
+          
+          // Mostrar notificación de error
+          const errorMessage = err.error?.message || err.message || 'No se pudo registrar el alquiler';
+          this.showNotification(
+            'error',
+            'Error al registrar alquiler',
+            errorMessage
+          );
         }
-        
-        // Mostrar notificación de éxito
-        this.showNotification(
-          'success',
-          'Alquiler registrado',
-          `El alquiler para ${formValue.nombreCliente} se registró exitosamente.`
-        );
-      },
-      error: (err) => {
-        console.error('Error creando alquiler', err);
-        this.rentSubmitting = false;
-        
-        // Mostrar notificación de error
-        const errorMessage = err.error?.message || err.message || 'No se pudo registrar el alquiler';
-        this.showNotification(
-          'error',
-          'Error al registrar alquiler',
-          errorMessage
-        );
-      }
-    });
+      });
+    }
   }
 
   downloadPDF(base64: string, filename: string): void {

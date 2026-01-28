@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
         },
         fechaInicio: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
         fechaFin: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
         idInventario: {
@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         montoPagado: {
             type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        observaciones: {
+            type: DataTypes.TEXT,
             allowNull: true,
         }
     }

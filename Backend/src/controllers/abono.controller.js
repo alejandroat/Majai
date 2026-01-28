@@ -20,7 +20,7 @@ const formatDate = (date) => {
 // Crear un nuevo abono
 exports.createAbono = async (req, res, next) => {
     try {
-        const { idArrendamiento, idUsuario, fecha, valor } = req.body;
+        const { idArrendamiento, idUsuario, fecha, valor, tipoPago} = req.body;
 
         // Verificar que el arrendamiento existe con su inventario
         const arrendamiento = await Arrendamiento.findByPk(idArrendamiento, {
@@ -63,12 +63,13 @@ exports.createAbono = async (req, res, next) => {
             idArrendamiento,
             idUsuario,
             fecha: new Date(fecha),
-            valor
+            valor,
+            tipoPago
         });
 
         // Generar PDF del recibo de abono
         const inventario = arrendamiento.inventario;
-        const valorRestante = arrendamiento.valor - nuevoTotal;
+        const valorRestante = arrendamiento.valor - (arrendamiento.montoPagado + totalPagado) - valor;
         
         const pdfData = {
             fecha_recibo: formatDate(new Date(fecha)),
@@ -78,13 +79,15 @@ exports.createAbono = async (req, res, next) => {
             direccion_cliente: arrendamiento.direccionCliente || 'No especificada',
             telefono_cliente1: arrendamiento.telefonoCliente || '',
             telefono_cliente2: '',
-            tipo_pago: arrendamiento.tipoPago || 'CONTADO',
-            caracteristicas_prendas: inventario ? 
-                `<p><strong>Código:</strong> ${inventario.codigo}</p>
-                <p><strong>Descripción:</strong> ${inventario.descripcion || 'Vestido de alquiler'}</p>
-                <p><strong>Color:</strong> ${inventario.color || 'No especificado'}</p>
-                <p><strong>Talla:</strong> ${inventario.talla || 'No especificada'}</p>` 
-                : '<p>Información del vestido no disponible</p>',
+            tipo_pago: abono.tipoPago || 'CONTADO',
+           detalle_prendas_rows: 
+            `<tr>
+            <td>${inventario.codigo}</td>
+            <td>${inventario.descripcion || 'Vestido de alquiler'}</td>
+            <td>${inventario.color || 'No especificado'}</td>
+            <td>${inventario.talla || 'No especificada'}</td>  
+            <td>${formatNumber(valor)}</td>
+            </tr>`,
             valor_deposito: formatNumber(valor),
             valor_restante: formatNumber(valorRestante)
         };

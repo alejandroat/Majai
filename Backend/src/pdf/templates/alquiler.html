@@ -1,145 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Contrato Comercial</title>
   <link rel="stylesheet" href="../styles/pdf.css">
 </head>
+
 <body>
 
-<!-- LOGO DE FONDO -->
-<div class="logo-background">
-  <img src="{logo_base64}" alt="Logo Majai" class="background-logo">
-</div>
-
-<div class="container">
-
-  <!-- ENCABEZADO -->
-  <div class="header">
-    <h1>CONTRATO COMERCIAL</h1>
-    <h2>Majai Casa de Modas</h2>
-    <p class="subtitle">
-      Alquiler de vestidos para toda ocasión<br>
-      Bulevar del Centro Locales 12 - 13 - 14 / Cra. 6 No. 15-51<br>
-      Pereira - Tel. 344 4644 - 321 795
-    </p>
-    <p class="year">2026</p>
+  <!-- LOGO DE FONDO -->
+  <div class="logo-background">
+    <img src="{logo_base64}" alt="Logo Majai" class="background-logo">
   </div>
 
-  <!-- DATOS GENERALES -->
-  <section>
-    <h3>DATOS GENERALES</h3>
-    <ul class="data-list">
-      <li><strong>Fecha Alquiler:</strong> {fecha_alquiler}</li>
-      <li><strong>Fecha Entrega:</strong> {fecha_entrega}</li>
-      <li><strong>Fecha Reintegro:</strong> {fecha_reintegro}</li>
-      <li><strong>Arrendatario(a):</strong> {nombre_cliente}</li>
-      <li><strong>Documento No:</strong> {documento_cliente}</li>
-      <li><strong>Dirección:</strong> {direccion_cliente}</li>
-      <li><strong>Teléfono Celular:</strong> {telefono_cliente1}</li>
-      <li><strong>Teléfono Fijo:</strong> {telefono_cliente2}</li>
-    </ul>
-  </section>
+  <div class="container">
 
-  <!-- TERMINOS -->
-  <section>
-    <h3>TÉRMINOS DE USO</h3>
-    <p class="paragraph">
-      Estos términos y condiciones de uso aplican para todos los clientes de
-      MAJAI CASA DE MODAS. El alquiler es de (4) días calendario contados a partir
-      del día de entrega de la prenda. Este contrato es intransferible.
-      El precio del contrato comercial se fija en
-      <strong>$ {valor_total_alquiler}</strong>.
-    </p>
-  </section>
-
-  <!-- DETALLE -->
-  <section>
-    <h3>DETALLE DE PRENDAS</h3>
-    <div class="box">
-      {caracteristicas_prendas}
-    </div>
-  </section>
-
-  <!-- VALORES -->
-  <section>
-    <h3>VALORES</h3>
-    <ul class="data-list">
-      <li><strong>Valor Depósito:</strong> $ {valor_deposito}</li>
-    </ul>
-  </section>
-
-  <!-- CONTRATO -->
-  <section>
-    <h3>CONTRATO DE ARRENDAMIENTO</h3>
-
-    <p class="paragraph">
-      Contrato de arrendamiento que celebran por una parte
-      <strong>CAROLINA GALLEGO MONTOYA</strong>,
-      identificada con cédula No. 1.088.022.866, como representante legal de
-      <strong>Majai Casa de Modas</strong>, denominada LA ARRENDADORA,
-      y por la otra <strong>{nombre_cliente}</strong>, con cédula
-      No. <strong>{documento_cliente}</strong>, denominada LA ARRENDATARIA,
-      bajo las siguientes cláusulas:
-    </p>
-
-    <ol class="clauses">
-      <li>
-        LA ARRENDADORA entrega en arrendamiento el siguiente artículo:
-        {descripcion_vestido}.
-      </li>
-      <li>
-        El precio del arrendamiento se fija en
-        <strong>$ {valor_alquiler}</strong>.
-      </li>
-      <li>
-        El contrato se celebra desde la firma hasta la devolución del vestido en
-        perfectas condiciones.
-      </li>
-      <li>
-        Cualquier cambio de fecha deberá informarse con mínimo 15 días de
-        anticipación.
-      </li>
-      <li>
-        No hay devolución de dinero bajo ningún concepto.
-      </li>
-      <li>
-        El depósito es adicional al valor del alquiler y podrá ser retenido total
-        o parcialmente por daños, pérdidas o suciedad.
-      </li>
-      <li>
-        En caso de retraso en la devolución se cobrará una penalidad diaria hasta
-        un máximo de 10 días.
-      </li>
-      <li>
-        El contrato es personal e intransferible.
-      </li>
-      <li>
-        Leído y aceptado el presente contrato, se firma en Pereira el día
-        {dia_firma} de {mes_firma} de {anio_firma}.
-      </li>
-    </ol>
-  </section>
-
-  <!-- FIRMAS -->
-  <section class="signatures">
-    <div class="signature-block">
-      <p><strong>Arrendadora:</strong></p>
-      <p>Majai Casa de Modas</p>
-      <p>NIT: 1.088.022.866</p>
-      <div class="line"></div>
+    <!-- ENCABEZADO -->
+    <div class="header">
+      <h1>CONTRATO COMERCIAL</h1>
+      <h2>Majai Casa de Modas</h2>
+      <p class="subtitle">
+        Alquiler de vestidos para toda ocasión<br>
+        Bulevar del Centro Local 14 / Cra. 6 No. 15-51<br>
+        Pereira - Tel. 344 4644 - 321 795 2026
+      </p>
     </div>
 
-    <div class="signature-block">
-      <p><strong>Arrendataria – Firma:</strong></p>
-      <p>Documento No. {documento_cliente}</p>
-      <p>Nombre: {nombre_cliente}</p>
-      <p>Dirección: {direccion_cliente}</p>
-      <div class="line"></div>
-    </div>
-  </section>
+    <!-- DATOS GENERALES -->
+    <section>
+      <h3>DATOS GENERALES</h3>
+      <ul class="data-list">
+        <li><strong>Fecha Alquiler:</strong> {fecha_alquiler}</li>
+        <li><strong>Fecha Entrega:</strong> {fecha_entrega}</li>
+        <li><strong>Fecha Reintegro:</strong> {fecha_reintegro}</li>
+        <li><strong>Arrendatario(a):</strong> {nombre_cliente}</li>
+        <li><strong>Documento No:</strong> {documento_cliente}</li>
+        <li><strong>Dirección:</strong> {direccion_cliente}</li>
+        <li><strong>Teléfono Celular:</strong> {telefono_cliente1}</li>
+        <li><strong>Teléfono Fijo:</strong> {telefono_cliente2}</li>
+      </ul>
+    </section>
 
-</div>
+    <!-- TERMINOS -->
+    <section>
+      <h3>TÉRMINOS DE USO</h3>
+      <p class="paragraph">
+        Estos términos y condiciones de uso aplican para todos los clientes de MAJAI CASA DE MODAS, por lo que al
+        utilizar
+        nuestros servicios, los mismos siempre serán aplicables si asi expresamente lo manifiesta como clientes
+        nuestros.
+        Te invitamos a leerlos detenidamente y, en caso de duda, nos solicites las aclaraciones que requieras. El
+        alquiler
+        es de (4) días calendario contados a partir del día de entrega de la prenda. Este contrato es intransferible,
+        por lo
+        tanto no cabe la posibilidad de hacer el cambio del contratante. El precio del contrato comercial se fija en
+        <strong>$ {valor_total_alquiler}</strong>. que serán descritas en este contrato comercial.
+      </p>
+    </section>
+
+    <!-- DETALLE -->
+    <section>
+      <h3>DETALLE DE PRENDAS</h3>
+
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Color</th>
+            <th>Talla</th>
+            <th>Valor Individual</th>
+          </tr>
+        </thead>
+        <tbody>
+          {detalle_prendas_rows}
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- VALORES -->
+    <section>
+      <h3>VALORES</h3>
+      <ul class="data-list">
+        <li><strong>Valor Depósito:</strong> $ {valor_deposito}</li>
+        <li><strong>Monto Pagado:</strong> $ {montoPagado}</li>
+        <li><strong>Observaciones:</strong> {observaciones}</li>
+      </ul>
+    </section>
+
+    <!-- CONTRATO -->
+    <section>
+      <p class="paragraph">
+        Contrato de arrendamiento que celebran por una parte <strong>CAROLINA GALLEGO MONTOYA</strong>, con cédula N°.
+        1.088.022.866, como
+        representante legal de Majai Casa de Modas, quien para todos los efectos de este contraro en lo sucesivo se le
+        denominará "LA ARRENDADORA",
+        y por la otra a <strong>{nombre_cliente}</strong>, con cédula de Ciudadanía N°. {documento_cliente}, quien, para
+        los mismos efectos, en adelante
+        se le denominará "LA ARRENDATARIA", con las siguientes cláusulas:
+      </p>
+
+      <p class="paragraph">
+        <strong>CLÁUSULA PRIMERA:</strong> LA ARRENDADORA otorga en arrendamiento y LA ARRENDATARIA recibe en tal
+        concepto {descripcion_vestido}.
+        <strong>CLÁUSULA SEGUNDA:</strong> Se fija como precio por el uso y disfrute del artículo arrendado un valor de
+        $ {valor_total_alquiler}.
+        <strong>CLÁUSULA TERCERA:</strong> El presente contrato de arrendamiento se celebra desde el día de la firma del
+        presente contrato hasta el
+        día de la devolución de los vestidos en perfectas condiciones.
+        <strong>CLÁUSULA CUARTA:</strong> LA ARRENDATARIA debe informar a LA ARRENDADORA cualquier cambio en la fecha
+        del evento con mínimo 15 días
+        de anticipación. Se hará solo un cambio de fecha. Para realizar algún cambio de fecha debe tener abonado el 50%
+        del valor del contrato.
+        <strong>CLÁUSULA QUINTA:</strong> LA ARRENDADORA retendrá el 100% del dinero abonado si el vestido no es
+        retirado el día y a la hora estipulada.
+        <strong>CLÁUSULA SEXTA:</strong> Las entregas por parte de <strong>MAJAI CASA DE MODAS</strong> se realizan los
+        jueves a las 2:00 p.m., a excepción
+        de algún acuerdo realizado entre LA ARRENDADORA y LA ARRENDATARIA. LA ARRENDATARIA se compromete a medirse todas
+        las prendas en alquiler antes de la
+        fecha del evento para manifestar a LA ARRENDADORA cualquier tipo de modificación; por esta razón se entregan con
+        dos días de anticipación.
+        <strong>CLÁUSULA SÉPTIMA:</strong> Acepta LA ARRENDATARIA que de no entregar el o los artículos en la fecha
+        prevista en la cláusula tercera, se cobrará
+        una pena de $20.000 (veinte mil pesos M/CTE) por cada día de retraso hasta un máximo de 10 días. A partir del
+        onceavo día se hará el cobro total del valor
+        comercial de los vestidos. <strong>CLÁUSULA OCTAVA:</strong> NO HAY DEVOLUCIÓN DE DINERO, ni total ni parcial de
+        los separados o pagos totales de alquileres
+        por ningún motivo. El valor de la atención se establece en $100.000 (cien mil pesos M/CTE) en caso de no llevar
+        la prenda. El contrato es personal e intransferible.
+        <strong>CLÁUSULA NOVENA:</strong> El depósito es un valor adicional al valor total del alquiler, que se solicita
+        en efectivo el día que retire la prenda de la tienda.
+        Los depósitos se podrán retener de forma temporal, porcentual o total de acuerdo con el daño total o parcial del
+        traje y/o pérdida de productos o accesorios,
+        también se establece un valor de $100.000 (cien mil pesos M/CTE) por lavandería si las prendas presentan un alto
+        grado de suciedad.
+        <strong>CLÁUSULA DÉCIMA:</strong> LA ARRENDATARIA acepta que en caso de que el o los artículos sufran cualquier
+        daño, tal es el caso de una quemadura, desgarres,
+        roturas, agujeros en la prenda, daños en los ruedos, manchas imposibles de limpiar o robo, LA ARRENDADORA estará
+        en su derecho de cobrar la totalidad
+        de los vestidos por su valor Comercial. <strong>CLÁUSULA DÉCIMA PRIMERA:</strong> El valor establecido para
+        llevar los vestidos antes de la fecha
+        del evento para fotos es de $100.000 (cien mil pesos M/CTE). Si el vestido sufre algún daño durante las fotos,
+        LA ARRENDADORA estará en su derecho
+        de cobrar la totalidad del vestido por su valor comercial. <strong>CLÁUSULA DÉCIMA SEGUNDA:</strong> LA
+        ARRENDATARIA se compromete a no usar
+        pólvora, pólvora fría o cualquier tipo de elementos que puedan quemar los vestidos. <strong>CLÁUSULA DÉCIMA
+          TERCERA:</strong> Leído y aceptado
+        el presente contrato y estando las partes conformes con el contenido del mismo, firman en Pereira, Risaralda, el
+        día {dia_firma} de {mes_firma} de {anio_firma}.
+      </p>
+
+
+    </section>
+
+    <!-- FIRMAS -->
+    <section class="signatures">
+      <div class="signature-block">
+        <p><strong>Arrendadora:</strong></p>
+        <p>Majai Casa de Modas</p>
+        <p>NIT: 1.088.022.866</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="signature-block">
+        <p><strong>Arrendataria – Firma:</strong></p>
+        <p>Documento No. {documento_cliente}</p>
+        <p>Nombre: {nombre_cliente}</p>
+        <div class="line"></div>
+      </div>
+    </section>
+
+  </div>
 
 </body>
+
 </html>

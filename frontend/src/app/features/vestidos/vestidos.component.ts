@@ -48,7 +48,7 @@ export class VestidosComponent implements OnInit {
   notificationTitle = '';
   notificationMessage = '';
 
-  codigos: string[] = ['VQ', 'VN', 'CK', 'VH', 'PJ', 'VELO', 'CORB', 'CHAL', 'OTRO'];
+  codigos: string[] = ['VQ', 'VN','VC', 'CK', 'VH', 'PJ', 'VELO', 'CORB', 'CHAL', 'OTRO'];
   generos: string[] = ['Masculino', 'Femenino', 'Niño', 'Niña'];
 
   @ViewChild('imageInput')

@@ -169,7 +169,7 @@
       </div>
 
       <!-- Formulario -->
-      <form [formGroup]="rentForm" (ngSubmit)="submitRental()" class="rental-form">
+      <form [formGroup]="rentForm" class="rental-form">
         <div class="form-grid">
           <!-- Campo oculto para ID Inventario -->
           <input type="hidden" formControlName="idInventario" />
@@ -248,11 +248,18 @@
             Monto pagado
             <input type="number" formControlName="montoPagado" placeholder="0" min="0" />
           </label>
+          <label class="wide">
+            Observaciones
+            <textarea formControlName="observaciones" placeholder="Observaciones adicionales (opcional)" rows="3"></textarea>
+          </label>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" (click)="closeRental()">Cancelar</button>
-          <button type="submit" class="btn-primary" [disabled]="rentForm.invalid || rentSubmitting">
-            {{ rentSubmitting ? 'Guardando…' : 'Guardar alquiler' }}
+          <button type="button" class="btn-primary" (click)="submitRental(false)" [disabled]="rentForm.invalid || rentSubmitting">
+            {{ rentSubmitting ? 'Guardando…' : 'Guardar sin PDF' }}
+          </button>
+          <button type="button" class="btn-primary" (click)="submitRental(true)" [disabled]="rentForm.invalid || rentSubmitting">
+            {{ rentSubmitting ? 'Guardando…' : 'Guardar con PDF' }}
           </button>
         </div>
       </form>

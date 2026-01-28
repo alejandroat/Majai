@@ -3,6 +3,8 @@ const router = express.Router();
 const arrendamientoController = require('../controllers/arrendamiento.controller');
 
 router.post('/crear', arrendamientoController.createArrendamiento);
+router.post('/crear-sin-pdf', arrendamientoController.createArrendamientoSinPDF);
+router.post('/crearpdf', arrendamientoController.generateArrendamientosPDF);
 router.get('/listar', arrendamientoController.getArrendamientos);
 router.get('/ver/:id', arrendamientoController.getArrendamientoById);
 router.get('/vestido/:id', arrendamientoController.getArrendamientosByVestido);

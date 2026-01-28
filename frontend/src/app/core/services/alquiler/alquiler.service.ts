@@ -18,6 +18,10 @@ export class AlquilerService {
   crearAlquiler(data: any) {
     return this.http.post<any>(`${this.apiUrl}${this.appUrl}/crear`, data);
   }
+
+  crearAlquilerSinPDF(data: any) {
+    return this.http.post<any>(`${this.apiUrl}${this.appUrl}/crear-sin-pdf`, data);
+  }
   
   listarAlquileres() {
     return this.http.get<any[]>(`${this.apiUrl}${this.appUrl}/listar`);
@@ -37,5 +41,9 @@ export class AlquilerService {
 
   eliminarAlquiler(id: number) {
     return this.http.delete<any>(`${this.apiUrl}${this.appUrl}/eliminar/${id}`);
+  }
+
+  crearPDFAlquiler(data: any) {
+    return this.http.post<any>(`${this.apiUrl}${this.appUrl}/crearpdf`, data);
   }
 }
