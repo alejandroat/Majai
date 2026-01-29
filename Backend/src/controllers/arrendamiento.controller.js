@@ -17,6 +17,12 @@ const formatDate = (date) => {
     });
 };
 
+// Helper para generar número de contrato
+const generateContractNumber = (arrendamientoId) => {
+    // Convertir el ID a un número de 4 dígitos con ceros a la izquierda
+    return arrendamientoId.toString().padStart(4, '0');
+};
+
 // Crear un nuevo arrendamiento
 exports.createArrendamiento = async (req, res, next) => {
     try {
@@ -114,6 +120,7 @@ exports.createArrendamiento = async (req, res, next) => {
 
         // Generar PDF del contrato
         const fechaAlquiler = new Date();
+        const numeroContrato = generateContractNumber(arrendamiento.id);
         const pdfData = {
             fecha_alquiler: formatDate(fechaAlquiler),
             fecha_entrega: fechaInicioDate,
@@ -139,7 +146,8 @@ exports.createArrendamiento = async (req, res, next) => {
             dia_firma: fechaAlquiler.getDate(),
             mes_firma: fechaAlquiler.toLocaleDateString('es-CO', { month: 'long' }),
             anio_firma: fechaAlquiler.getFullYear(),
-            observaciones: observaciones || ''
+            observaciones: observaciones || '',
+            numero_contrato: numeroContrato
         };
 
         let pdfBase64 = null;
@@ -475,6 +483,7 @@ exports.generateArrendamientosPDF = async (req, res, next) => {
 
         // Generar PDF del contrato unificado
         const fechaAlquiler = new Date();
+        const numeroContrato = generateContractNumber(primerArrendamiento.id);
         const pdfData = {
             fecha_alquiler: formatDate(fechaAlquiler),
             fecha_entrega: fechaEntregaMasTemprana.toISOString().split('T')[0],
@@ -493,7 +502,8 @@ exports.generateArrendamientosPDF = async (req, res, next) => {
             dia_firma: fechaAlquiler.getDate(),
             mes_firma: fechaAlquiler.toLocaleDateString('es-CO', { month: 'long' }),
             anio_firma: fechaAlquiler.getFullYear(),
-            observaciones: todaslasobservaciones || ''
+            observaciones: todaslasobservaciones || '',
+            numero_contrato: numeroContrato
         };
 
         let pdfBase64 = null;

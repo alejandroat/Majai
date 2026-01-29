@@ -37,6 +37,20 @@ body {
   z-index: 1;
 }
 
+/* ===== NUMERACIÓN ===== */
+.contract-number {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  font-size: 12pt;
+  font-weight: bold;
+  color: #5a3328;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #c7a39c;
+}
+
 /* ===== ENCABEZADO ===== */
 .header {
   text-align: center;
