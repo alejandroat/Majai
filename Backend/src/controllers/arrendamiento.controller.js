@@ -131,6 +131,8 @@ exports.createArrendamiento = async (req, res, next) => {
             telefono_cliente1: telefonoCliente || '',
             telefono_cliente2: '',
             valor_total_alquiler: formatNumber(valor),
+            valor_comercial: formatNumber(inventario.valor || 0),
+            saldo: formatNumber(valor - (montoPagado || 0)),
             detalle_prendas_rows: 
             `<tr>
             <td>${inventario.codigo}</td>
@@ -400,6 +402,14 @@ exports.deleteArrendamiento = async (req, res, next) => {
             return res.status(404).json({ message: 'Arrendamiento no encontrado' });
         }
 
+        // Eliminar todos los abonos asociados al arrendamiento
+        await Abonos.destroy({
+            where: {
+                idArrendamiento: req.params.id
+            }
+        });
+        console.log('Abonos eliminados para arrendamiento ID:', req.params.id);
+
         // Liberar el inventario antes de eliminar
         const inventario = await Inventario.findByPk(arrendamiento.idInventario);
         if (inventario && !inventario.estado) {
@@ -407,8 +417,9 @@ exports.deleteArrendamiento = async (req, res, next) => {
         }
 
         await arrendamiento.destroy();
-        res.json({ message: 'Arrendamiento eliminado correctamente' });
+        res.json({ message: 'Arrendamiento y abonos asociados eliminados correctamente' });
     } catch (err) {
+        console.error('Error eliminando arrendamiento:', err);
         next(err);
     }
 };
@@ -481,6 +492,10 @@ exports.generateArrendamientosPDF = async (req, res, next) => {
             .filter(obs => obs && obs.trim() !== '')
             .join(' | ');
 
+        const todoslosvalorescomerciales = arrendamientos
+            .map(arr => arr.inventario.valor || 0);
+        const valorComercialTotal = todoslosvalorescomerciales.reduce((acc, val) => acc + val, 0);
+
         // Generar PDF del contrato unificado
         const fechaAlquiler = new Date();
         const numeroContrato = generateContractNumber(primerArrendamiento.id);
@@ -494,9 +509,11 @@ exports.generateArrendamientosPDF = async (req, res, next) => {
             telefono_cliente1: primerArrendamiento.telefonoCliente || '',
             telefono_cliente2: '',
             valor_total_alquiler: formatNumber(valorTotalAlquiler),
+            valor_comercial: formatNumber(valorComercialTotal),
             detalle_prendas_rows: detalle_prendas_rows,
             valor_deposito: formatNumber(valorTotalDeposito),
-            montoPagado: formatNumber(montoPagadoTotal),
+            saldo: formatNumber(valorComercialTotal - (montoPagadoTotal || 0)),
+            monto_pagado: formatNumber(montoPagadoTotal),
             descripcion_vestido: `Alquiler múltiple - ${arrendamientos.length} prendas`,
             valor_alquiler: formatNumber(valorTotalAlquiler),
             dia_firma: fechaAlquiler.getDate(),

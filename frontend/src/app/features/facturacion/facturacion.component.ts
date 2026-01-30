@@ -26,6 +26,12 @@ export class FacturacionComponent implements OnInit {
   selectedIds: number[] = [];
   generatingPDF = false;
 
+  // Modal de edición
+  editOpen = false;
+  editForm: FormGroup;
+  editSubmitting = false;
+  selectedAlquilerToEdit: any = null;
+
   // Modal de pago
   pagoOpen = false;
   pagoForm: FormGroup;
@@ -61,6 +67,21 @@ export class FacturacionComponent implements OnInit {
     this.pagoForm = this.fb.group({
       valor: ['', [Validators.required, Validators.min(1)]],
       tipoPago: ['Efectivo', Validators.required]
+    });
+
+    this.editForm = this.fb.group({
+      fechaInicio: ['', Validators.required],
+      fechaFin: ['', Validators.required],
+      nombreCliente: ['', Validators.required],
+      tipoDocumento: ['CC', Validators.required],
+      identificacionCliente: ['', Validators.required],
+      telefonoCliente: ['', Validators.required],
+      direccionCliente: [''],
+      deposito: [0],
+      valor: ['', Validators.required],
+      tipoPago: ['CONTADO', Validators.required],
+      montoPagado: [0],
+      observaciones: ['']
     });
   }
 
@@ -403,6 +424,107 @@ export class FacturacionComponent implements OnInit {
 
   closeNotification(): void {
     this.notificationOpen = false;
+  }
+
+  // Métodos de edición de alquiler
+  editarAlquiler(row: any): void {
+    console.log('Editar alquiler:', row);
+    this.selectedAlquilerToEdit = row;
+    
+    // Pre-llenar el formulario con los datos existentes
+    this.editForm.patchValue({
+      fechaInicio: this.formatDateForInput(row.fechaInicio),
+      fechaFin: this.formatDateForInput(row.fechaFin),
+      nombreCliente: row.NombreCliente,
+      tipoDocumento: row.tipoDocumento || 'CC',
+      identificacionCliente: row.identificacionCliente,
+      telefonoCliente: row.telefonoCliente,
+      direccionCliente: row.direccionCliente || '',
+      deposito: row.deposito || 0,
+      valor: row.valor,
+      tipoPago: row.tipoPago || 'CONTADO',
+      montoPagado: row.montoPagado || 0,
+      observaciones: row.observaciones || ''
+    });
+    
+    this.editOpen = true;
+  }
+
+  closeEdit(): void {
+    this.editOpen = false;
+    this.editSubmitting = false;
+    this.selectedAlquilerToEdit = null;
+    this.editForm.reset();
+  }
+
+  submitEdit(): void {
+    if (this.editForm.invalid || this.editSubmitting || !this.selectedAlquilerToEdit) return;
+    
+    this.editSubmitting = true;
+    const formValue = this.editForm.value;
+    
+    const payload = {
+      fechaInicio: formValue.fechaInicio,
+      fechaFin: formValue.fechaFin,
+      NombreCliente: formValue.nombreCliente,
+      tipoDocumento: formValue.tipoDocumento,
+      identificacionCliente: formValue.identificacionCliente,
+      telefonoCliente: formValue.telefonoCliente,
+      direccionCliente: formValue.direccionCliente,
+      deposito: formValue.deposito || 0,
+      valor: formValue.valor,
+      tipoPago: formValue.tipoPago,
+      montoPagado: formValue.montoPagado || 0,
+      observaciones: formValue.observaciones || ''
+    };
+    
+    this.alquilerService.editarAlquiler(this.selectedAlquilerToEdit.id, payload).subscribe({
+      next: (response: any) => {
+        console.log('Alquiler editado exitosamente:', response);
+        this.editSubmitting = false;
+        this.closeEdit();
+        
+        // Recargar la lista para mostrar los cambios
+        this.loadAlquileres();
+        
+        // Mostrar notificación de éxito
+        this.showNotification(
+          'success',
+          'Alquiler actualizado',
+          `Se actualizó exitosamente el alquiler de ${formValue.nombreCliente}.`
+        );
+      },
+      error: (err) => {
+        console.error('Error al editar alquiler:', err);
+        this.editSubmitting = false;
+        
+        const errorMessage = err.error?.message || err.message || 'No se pudo actualizar el alquiler';
+        this.showNotification(
+          'error',
+          'Error al actualizar alquiler',
+          errorMessage
+        );
+      }
+    });
+  }
+
+  private formatDateForInput(dateString: string): string {
+    if (!dateString) return '';
+    
+    // Si la fecha viene con timestamp, extraer solo la parte de fecha
+    if (dateString.includes('T')) {
+      return dateString.split('T')[0];
+    }
+    
+    // Si es una fecha normal, formatearla para el input
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
+    
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
   }
 
 }
