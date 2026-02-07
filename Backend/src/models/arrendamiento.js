@@ -23,15 +23,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         tipoDocumento: {
             type: DataTypes.ENUM('CC', 'TI', 'CE', 'PASAPORTE'),
-            allowNull: false,
+            allowNull: true,
         },
         identificacionCliente: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         telefonoCliente: {
             type: DataTypes.ARRAY(DataTypes.STRING), 
-            allowNull: false,
+            allowNull: true,
         },
         direccionCliente: {
             type: DataTypes.STRING,
@@ -43,11 +43,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         valor: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         tipoPago: {
             type: DataTypes.ENUM('ABONO', 'CONTADO'),
-            allowNull: false,
+            allowNull: true,
         },
         montoPagado: {
             type: DataTypes.INTEGER,

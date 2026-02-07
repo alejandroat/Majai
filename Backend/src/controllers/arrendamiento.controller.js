@@ -512,7 +512,7 @@ exports.generateArrendamientosPDF = async (req, res, next) => {
             valor_comercial: formatNumber(valorComercialTotal),
             detalle_prendas_rows: detalle_prendas_rows,
             valor_deposito: formatNumber(valorTotalDeposito),
-            saldo: formatNumber(valorComercialTotal - (montoPagadoTotal || 0)),
+            saldo: formatNumber(valorTotalAlquiler - (montoPagadoTotal || 0)),
             monto_pagado: formatNumber(montoPagadoTotal),
             descripcion_vestido: `Alquiler múltiple - ${arrendamientos.length} prendas`,
             valor_alquiler: formatNumber(valorTotalAlquiler),

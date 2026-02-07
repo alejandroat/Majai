@@ -207,16 +207,16 @@
           <label>
             Identificación cliente
             <input type="text" formControlName="identificacionCliente" placeholder="Identificación" />
-            <div class="field-error" *ngIf="rentForm.get('identificacionCliente')?.invalid && rentForm.get('identificacionCliente')?.touched">
+            <!-- <div class="field-error" *ngIf="rentForm.get('identificacionCliente')?.invalid && rentForm.get('identificacionCliente')?.touched">
               <span>La identificación del cliente es requerida</span>
-            </div>
+            </div> -->
           </label>
           <label>
             Teléfono cliente
             <input type="text" formControlName="telefonoCliente" placeholder="Teléfono principal" />
-            <div class="field-error" *ngIf="rentForm.get('telefonoCliente')?.invalid && rentForm.get('telefonoCliente')?.touched">
+            <!-- <div class="field-error" *ngIf="rentForm.get('telefonoCliente')?.invalid && rentForm.get('telefonoCliente')?.touched">
               <span>El teléfono del cliente es requerido</span>
-            </div>
+            </div> -->
           </label>
           <label>
             Teléfono 2 (opcional)
@@ -233,9 +233,9 @@
           <label>
             Valor
             <input type="number" formControlName="valor" placeholder="Valor del alquiler" min="1" />
-            <div class="field-error" *ngIf="rentForm.get('valor')?.invalid && rentForm.get('valor')?.touched">
+            <!-- <div class="field-error" *ngIf="rentForm.get('valor')?.invalid && rentForm.get('valor')?.touched">
               <span>El valor del alquiler es requerido</span>
-            </div>
+            </div> -->
           </label>
           <label>
             Tipo pago

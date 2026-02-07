@@ -455,13 +455,13 @@ export class InfoVestidoComponent implements OnInit {
       fechaFin: formValue.fechaFin,
       idInventario: formValue.idInventario,
       NombreCliente: formValue.nombreCliente,
-      tipoDocumento: formValue.tipoDocumento,
-      identificacionCliente: formValue.identificacionCliente,
+      tipoDocumento: formValue.tipoDocumento || 'CC',
+      identificacionCliente: formValue.identificacionCliente || '',
       telefonoCliente: telefonos,
-      direccionCliente: formValue.direccionCliente,
+      direccionCliente: formValue.direccionCliente || '',
       deposito: formValue.deposito || 0,
-      valor: formValue.valor,
-      tipoPago: formValue.tipoPago,
+      valor: formValue.valor || 0,
+      tipoPago: formValue.tipoPago || 'CONTADO',
       montoPagado: formValue.montoPagado || 0,
       observaciones: formValue.observaciones || ''
     };
