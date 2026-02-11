@@ -53,13 +53,13 @@ export class InfoVestidoComponent implements OnInit {
       idInventario: ['', Validators.required],
       nombreCliente: ['', Validators.required],
       tipoDocumento: ['CC', Validators.required],
-      identificacionCliente: ['', Validators.required],
-      telefonoCliente: ['', Validators.required],
+      identificacionCliente: [''],
+      telefonoCliente: [''],
       telefonoCliente2: [''], // Segundo teléfono opcional
       direccionCliente: [''],
       deposito: [0],
-      valor: ['', Validators.required],
-      tipoPago: ['CONTADO', Validators.required],
+      valor: [0],
+      tipoPago: ['CONTADO'],
       montoPagado: [0],
       observaciones: ['']
     });
