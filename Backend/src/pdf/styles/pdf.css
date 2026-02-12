@@ -272,8 +272,8 @@ section .data-list li {
 
 section .data-list2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 14px;
   row-gap: 8px;
   list-style: none;
   padding: 0;
@@ -284,11 +284,13 @@ section .data-list2 li {
   font-size: 9.5pt;
   margin: 0;
   padding: 0;
+  white-space: nowrap;;
 }
 
 /* Observaciones ocupa toda la fila */
 section .data-list2 li:nth-child(4) {
   grid-column: 1 / -1;
+  white-space: normal;
 }
 
 
